@@ -104,16 +104,7 @@ blkSize = mAvg;
 
 %% audio sample frequency of output
 if isempty(par.audioFs)
-    audioFs = ceil(tAvg*44100)/tAvg;
-else
-    audioFs = ceil(tAvg*par.audioFs)/tAvg;
-end
-audioTs = 1/audioFs;
-nAvg = round(tAvg/audioTs);
-tWin = 2*tAvg;
-nFFT = round(tWin/audioTs);
-
-%% length of audio
+    audioFs = ceil(tAvg*a
 
 
 

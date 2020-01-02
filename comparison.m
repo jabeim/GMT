@@ -2,12 +2,12 @@
 clear all
 close all 
 matData = load('GMTresults.mat');
-pyData = load('GpyTdataPYTHON.mat');
+pyData = load('GpyTdataPYTHON_GIT.mat');
 
 
 varList = fields(pyData);
 
-for i = 1:length(varList)-3
+for i = 1:length(varList)-2
     if isstruct(matData.(varList{i}))
     else
         if size(matData.(varList{i}),2) == 1
