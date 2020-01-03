@@ -223,26 +223,33 @@ for blkNumber=(1):floor(size(elData,2)/blkSize)
     % spectrum of audio from average window
     spect=(MneurToBin*energy).*exp(1i*phs);
     
-    % reduce spectrum to tone frequency components
-    toneMags = interp1(fftFreqs,abs(spect),toneFreqs,'linear','extrap');
-    tonePhases = interp1(fftFreqs,angle(spect),toneFreqs,'linear','extrap');
+    toneMags = interp1(fftFreqs,abs(spect),
+    tonePhases = interp1()
     
     interpSpect(:,blkNumber) = toneMags*exp(1j*tonePhases);
     
+    
+    
+    
+    
+  
+    
+   
+    
+    
 end
 
-    %interpolated spectral envelope scaling
+%interpolated spectral envelope scaling
     
-    specVec = 1:blkNumber*nFFT/2;
-    newTimeVec = 1:(nBlocks-(nFFT/2));
-    interpSpect2 = zeros(length(toneFreqs),length(newTImeVec));
-    modTones = zeros(size(interpSpect2));
+    specVec = 1:blkNumber*nFFT/2
+    newTimeVec = 1:(nBlocks-(nFFT/2))
+    interpSpect2 = zeros(length(toneFreqs),length(newTImeVec))
+    modTones = zeros(size(interpSpect2))
     
-    %interpolate spectral envelope from frames back to td
     for freq = 1: length(toneFreqs)
-        tEnvMag = interp1(specVec,abs(interpSpect(freq,:)),newTimeVec,'linear','extrap');
-        tEnvPhs = interp1(specVec,angle(interpSpect(freq,:)),newTimeVec,'linear','extrap');
-        interpSpect2(freq,:) = tEnvMag*exp(1j*tEnvPhs);
+        tEnvMag = interp1()
+        tEnvPhs = interp1()
+        interpSpect2(freq,:) = tEnvMag*exp(1j*tEnvPhs)
         modTones(freq,:) = tones(1:end-nFFT/2,freq)*abs(interpSpect2(freq,:));
     end
     
