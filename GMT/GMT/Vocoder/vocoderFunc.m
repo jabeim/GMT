@@ -10,11 +10,11 @@ for i = 1:length(defaultParNames)
 end
 
 %% scale and preprocess electrodogram data
-scale2MuA = 1000/par.resistorVal
-electrodeAmp = electrodogram
+scale2MuA = 1000/par.resistorVal;
+electrodeAmp = electrodogram;
 nElec = size(electrodogram,1);
-elData = electrodeAmp*scale2MuA
-captTs = 1/captFs
+elData = electrodeAmp*scale2MuA;
+captTs = 1/captFs;
 
 
 %% compute electrode locations in terms of frequency
@@ -120,13 +120,11 @@ else
     tPlay = ceil(par.tPlay/tWin)*twin;
 end
 
-
 %charge 2 EF matrix
 charge2EF = zeros(nNeuralLocs,nElec);
 elecFreqOct = log2(elecFreqs);
 
-for iEl = 1:nElec
-    
+for iEl = 1:nElec  
     x = spread(elecPlacement(iEl)).fOct+elecFreqOct(iEl);
     xx = spread(elecPlacement(iEl)).amp;
     xxx = neuralLocsOct;
@@ -186,12 +184,12 @@ fftFreqsOct=log2(fftFreqs);
 % generate tone complex
 nBlocks = (nFFT/2*floor(size(eldata,2)/blkSize+1))-1;
 
-tones = zeros(nBlocks,nCarriers)
-toneFreqs = generate_cfs(20,20000,nCarriers)
-t =(1:nBlocks)/audioFs
+tones = zeros(nBlocks,nCarriers);
+toneFreqs = generate_cfs(20,20000,nCarriers);
+t =(1:nBlocks)/audioFs;
 
 for toneNum = 1:nCarriers
-    tones(:,toneNum) = sin(2*pi*toneFreqs(toneNum)*t+phs(toneNum))
+    tones(:,toneNum) = sin(2*pi*toneFreqs(toneNum)*t+phs(toneNum));
 end
 
 interpSpect = zeros(nCarriers,floor(size(elData,2)/blkSize));
