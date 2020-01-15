@@ -3,8 +3,8 @@
 initGmtClassPath;
 
 %% Create strategy
-strat = FftStrategy();
-
+strat = FftStrategy(); % AzBio_3sent.wav is assigned as default sound input, use line below to load other files
+% strat.wavFile = 'YOUR FILE NAME HERE.wav'
 %% Create instances of ProcUnits and add them to strategy
 src = ReadWavUnit(strat, 'SRC');  % use wav file as input
 mix = AudioMixerUnit(strat, 'MIX', 1, 65, 'rms', 111.6);   % 1 inputs, 65dB dB SPL RMS, assuming full-scale level 111.6 dB SPL

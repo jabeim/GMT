@@ -15,7 +15,7 @@ if isempty(GMTROOT)
 end
 
 addpath([GMTROOT, filesep, 'Utility'])
-initGmtClassPath;
+% initGmtClassPath;
 
 % Adding enough of the path to run the demos
 addpath([GMTROOT, filesep, 'Agc']);

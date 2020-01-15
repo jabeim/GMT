@@ -41,7 +41,28 @@ else
         name = [name, '.wav'];
     end
     
-    [signalIn, srcFs] = audioread(name);  % 2012b or later -> audioread
+    [signalIn, srcFs] = audioread(name,'native');  % 2012b or later -> audioread
+    
+    switch class(signalIn)
+        case 'uint8'
+            error('8 bit uint wav format not supported')
+        case 'int16'
+            bits = 16;
+            maxBit = 2^(bits-1);
+        case 'int32'
+            bits = 32;
+            maxBit = 2^(bits-1);
+        case 'single'
+            maxBit = 0;
+        case 'double'
+            maxBit = 0;
+        otherwise
+            error(['Data type ' class(signalIn) ' not supported.'])
+    end
+    
+
+    signalIn = cast(signalIn,'double')/(maxBit+1);
+    
 end
 
 signalIn = signalIn(:,par.iChannel);
