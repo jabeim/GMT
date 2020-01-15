@@ -1,12 +1,12 @@
-% This demo implements HiRes F120 with Clearvoice and computes the 
-% electrode output for some speech tokens.
+% This demo implements HiRes F120 with Clearvoice and computes the electrode
+% output for some speech tokens, as measured using a load-board and scope
 initGmtClassPath;
 
 %% Create strategy
 strat = FftStrategy();
 
 %% Create instances of ProcUnits and add them to strategy
-src = ReadWavUnit(strat, 'SRC', 'Sounds\AzBio_3sent.wav');  % use wav file as input
+src = ReadWavUnit(strat, 'SRC');  % use wav file as input
 mix = AudioMixerUnit(strat, 'MIX', 1, 65, 'rms', 111.6);   % 1 inputs, 65dB dB SPL RMS, assuming full-scale level 111.6 dB SPL
 
 pre = HarmonyPreemphasisUnit(strat, 'PRE');             % pre-emphasis filter
@@ -26,7 +26,8 @@ csynth = CarrierSynthesisUnit(strat, 'CSYNTH');         % synthesize electrode c
 
 map = F120MappingUnit(strat, 'MAP');                    % combine envelopes and carriers, and map to stimulation current amplitude 
 
-plotter = PlotF120ElectrodogramUnit(strat, 'PLT');      % plot mapper output as electrodogram
+egram = F120ElectrodogramUnit(strat, 'EGRAM', true);    % generate electrodogram from mapper output, plotting enabled
+
 
 %% set (non-default) block parameters
 agc.cFastInit = 0; 
@@ -62,7 +63,11 @@ strat.connect(csw, map, 2);
 strat.connect(csynth, map, 3);
 strat.connect(csynth, 2, map, 4);
 
-strat.connect(map, plotter);
+strat.connect(map, egram);
+
+egram.outputFs = 200000;   % 200 kHz scope sampling rate 
+egram.resistance = 10000;  % 10 kOhm load-board resistors
+egram.colorScheme = 4;
 
 % create "offline" viewer (display strategy as is, no dynamic updating)
 hFig = csViewer(strat, [], 0); 

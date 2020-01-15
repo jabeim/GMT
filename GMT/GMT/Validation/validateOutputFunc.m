@@ -4,7 +4,7 @@ function saved = validateOutputFunc(par,electrodogram)
         electrodogram = loaded.elData;
     end
     
-    if par.elGramRate ~= 200e3; error('Electrodogram must be generated with 200 kHz sampling rate'); end
+    if par.elgramFs ~= 200e3; error('Electrodogram must be generated with 200 kHz sampling rate'); end
         
     if length(size(electrodogram)) ~= 2; error('Electrodogram must be a 2 dimensional matrix!'); end
     if size(electrodogram,1) ~= 16
@@ -25,11 +25,11 @@ function saved = validateOutputFunc(par,electrodogram)
     
     if par.saveWithoutValidation == true
         if any(outputDifference < par.differenceThreshold)
-            channels = find(outputDifference < par.differenceThreshold)
+            channels = find(outputDifference < par.differenceThreshold);
             if length(channels) == 1
                 disp(['Channel ' num2str(channels) 'is too similar to the default output.'])
             else
-                disp(['Channels' num2str(channels) 'are too similar to the default output.'])
+                disp(['Channels ' num2str(channels) 'are too similar to the default output.'])
             end
         end
         elData = sparse(electrodogram);
@@ -43,7 +43,7 @@ function saved = validateOutputFunc(par,electrodogram)
         
     else
         if any(outputDifference < par.differenceThreshold)
-            channels = find(outputDifference < par.differenceThreshold)
+            channels = find(outputDifference < par.differenceThreshold)'
             if length(channels) == 1
                 disp(['Channel ' num2str(channels) 'is too similar to the default output. DATA NOT SAVED!'])
             else

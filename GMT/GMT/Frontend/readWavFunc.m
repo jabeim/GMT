@@ -28,7 +28,7 @@
 %  29/02/2016, PH, added iChannel and "auto" file extension
 function signalIn = readWavFunc(par)
 
-name = par.wavFile;
+name = par.parent.wavFile;
 stratFs = par.parent.fs;
 
 v = version; % get Matlab version

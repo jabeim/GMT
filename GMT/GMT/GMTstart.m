@@ -9,7 +9,8 @@ global GMTROOT
 if isempty(GMTROOT)
     GMTROOT = getenv('GMTROOT');
     if isempty(GMTROOT)
-        error('Environment variable GMTROOT needs to be set!');
+%         error('Environment variable GMTROOT needs to be set!');
+        GMTROOT = cd;
     end
 end
 
@@ -21,6 +22,8 @@ addpath([GMTROOT, filesep, 'Agc']);
 addpath([GMTROOT, filesep, 'Clearvoice']);
 addpath([GMTROOT, filesep, 'CsViewer']);
 addpath([GMTROOT, filesep, 'Demo']);
+addpath([GMTROOT, filesep, 'Electrodogram']);
+addpath([GMTROOT, filesep, 'Elementwise']);
 addpath([GMTROOT, filesep, 'Filterbank']);
 addpath([GMTROOT, filesep, 'Framework']);
 addpath([GMTROOT, filesep, 'Frontend']);
@@ -31,5 +34,6 @@ addpath([GMTROOT, filesep, 'Plotting']);
 addpath([GMTROOT, filesep, 'PostFilterbank']);
 addpath([GMTROOT, filesep, 'Strategies'])
 addpath([GMTROOT, filesep, 'Synthesis']);
+addpath([GMTROOT, filesep, 'Validation']);
 addpath([GMTROOT, filesep, 'Vocoder']);
 addpath([GMTROOT, filesep, 'WinBuf']);
