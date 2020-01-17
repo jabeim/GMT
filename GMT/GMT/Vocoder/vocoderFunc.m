@@ -205,5 +205,14 @@ end
     
     audioOut = sum(modTones,1);
 
+    if isfield(par,'saveAudioOutput') && par.saveAudioOutput == true
+        if isfield(par,'audioOutputFile') && ~isempty(par.audioOutputFile)
+            audiowrite(['Output' filesep par.audioOutputFile],audioOut,audioFs)
+        else
+            timestr = datestr(now,'yyyymmdd_HHMMSS');
+            audiowrite(['Output' filesep 'vocoderOutput_' timestr '.wav'],audioOut,audioFs)
+        end
+    end
+    
 end
 
