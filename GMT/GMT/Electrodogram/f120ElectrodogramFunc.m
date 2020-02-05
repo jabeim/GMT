@@ -100,9 +100,12 @@ function elGram = f120ElectrodogramFunc(par, ampIn)
         % more efficient (fewer line segments, faster drawing)
         for iEl = 1:16
                 idxChange = find(diff(elGram(:,iEl)));
+                
                 % create line segments only where change occurs
-                idxPlotX = [1, reshape(idxChange' + [1; 1], 1, 2*length(idxChange)), length(tOut)];
-                idxPlotY = [1, reshape(idxChange' + [0; 1], 1, 2*length(idxChange)), length(tOut)];
+                
+                % doc
+                idxPlotX = [1, reshape([idxChange'; idxChange'] + [1; 1], 1, 2*length(idxChange)), length(tOut)];
+                idxPlotY = [1, reshape([idxChange'; idxChange'] + [0; 1], 1, 2*length(idxChange)), length(tOut)];
                 
                 xx = tOut(idxPlotX);
                 yy = elGram(idxPlotY, iEl);
