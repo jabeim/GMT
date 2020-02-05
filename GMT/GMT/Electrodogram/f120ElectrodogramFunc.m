@@ -104,8 +104,8 @@ function elGram = f120ElectrodogramFunc(par, ampIn)
                 % create line segments only where change occurs
                 
                 % doc
-                idxPlotX = [1, reshape([idxChange'; idxChange'] + [1; 1], 1, 2*length(idxChange)), length(tOut)];
-                idxPlotY = [1, reshape([idxChange'; idxChange'] + [0; 1], 1, 2*length(idxChange)), length(tOut)];
+                idxPlotX = [1, reshape(bsxfun(@plus,idxChange',[1; 1]), 1, 2*length(idxChange)), length(tOut)];
+                idxPlotY = [1, reshape(bsxfun(@plus,idxChange',[0; 1]), 1, 2*length(idxChange)), length(tOut)];
                 
                 xx = tOut(idxPlotX);
                 yy = elGram(idxPlotY, iEl);
