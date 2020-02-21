@@ -210,7 +210,8 @@ end
             audiowrite(['Output' filesep par.audioOutputFile],audioOut,audioFs)
         else
             timestr = datestr(now,'yyyymmdd_HHMMSS');
-            audiowrite(['Output' filesep 'vocoderOutput_' timestr '.wav'],audioOut,audioFs)
+            outFn = fullfile(['Output' filesep 'vocoderOutput_' timestr '.wav'])
+            audiowrite(outFn,audioOut,audioFs)
         end
     end
     
