@@ -43,16 +43,14 @@ function saved = validateOutputFunc(par,electrodogram)
         saved = true;
         
     else
-        if any(outputDifference < par.differenceThreshold)
-            channels = find(outputDifference < par.differenceThreshold)';
-            if length(channels) > par.maxSimilarChannels;
-                if length(channels) == 1
-                    disp(['Channel: ' num2str(channels) ' is too similar to the default output. DATA NOT SAVED!'])
-                else
-                    disp(['Channels: ' num2str(channels) ', are too similar to the default output. DATA NOT SAVED'])
-                end
-                saved = false;
+        channels = find(outputDifference < par.differenceThreshold)';
+        if length(channels) > par.maxSimilarChannels;
+            if length(channels) == 1
+                disp(['Channel: ' num2str(channels) ' is too similar to the default output. DATA NOT SAVED!'])
+            else
+                disp(['Channels: ' num2str(channels) ', are too similar to the default output. DATA NOT SAVED'])
             end
+            saved = false;
         else
             elData = sparse([outputDifference electrodogram]);
             if length(par.outFile) == 0
@@ -62,6 +60,6 @@ function saved = validateOutputFunc(par,electrodogram)
                 save(['Output/' par.outFile],'elData')
             end
             saved = true;
-        end     
+        end      
     end
     
