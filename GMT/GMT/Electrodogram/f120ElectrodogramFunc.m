@@ -103,7 +103,8 @@ function elGram = f120ElectrodogramFunc(par, ampIn)
                 
                 % create line segments only where change occurs
                 
-                % doc
+                % changed due to addition shape incompatability in 2015b
+                % (and previous?)
                 idxPlotX = [1, reshape([idxChange'; idxChange'] + [1; 1], 1, 2*length(idxChange)), length(tOut)];
                 idxPlotY = [1, reshape([idxChange'; idxChange'] + [0; 1], 1, 2*length(idxChange)), length(tOut)];
                 
