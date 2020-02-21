@@ -11,7 +11,7 @@ end
 
 %% scale and preprocess electrodogram data
 scale2MuA = 500/par.resistorVal;
-electrodeAmp = electrodogram;
+electrodeAmp = electrodogram(:,2:end);   % the first column of data is actually channel similarity to the template.
 nElec = size(electrodogram,1);
 elData = electrodeAmp*scale2MuA;
 captTs = 1/par.captFs;
@@ -210,7 +210,7 @@ end
             audiowrite(['Output' filesep par.audioOutputFile],audioOut,audioFs)
         else
             timestr = datestr(now,'yyyymmdd_HHMMSS');
-            outFn = fullfile(['Output' filesep 'vocoderOutput_' timestr '.wav'])
+            outFn = fullfile(['Output' filesep 'vocoderOutput_' timestr '.wav']);
             audiowrite(outFn,audioOut,audioFs)
         end
     end

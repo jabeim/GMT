@@ -32,7 +32,8 @@ function saved = validateOutputFunc(par,electrodogram)
                 disp(['Channels: ' num2str(channels) ', are too similar to the default output.'])
             end
         end
-        elData = sparse(electrodogram);
+        elData = sparse([outputDifference electrodogram]);
+        
         if length(par.outFile) == 0
             timestr = datestr(now,'yyyymmdd_HHMMSS');
             save(['Output/elGramOutput_' timestr '.mat'], 'elData')
@@ -44,14 +45,16 @@ function saved = validateOutputFunc(par,electrodogram)
     else
         if any(outputDifference < par.differenceThreshold)
             channels = find(outputDifference < par.differenceThreshold)';
-            if length(channels) == 1
-                disp(['Channel: ' num2str(channels) ' is too similar to the default output. DATA NOT SAVED!'])
-            else
-                disp(['Channels: ' num2str(channels) ', are too similar to the default output. DATA NOT SAVED'])
+            if length(channels) > par.maxSimilarChannels;
+                if length(channels) == 1
+                    disp(['Channel: ' num2str(channels) ' is too similar to the default output. DATA NOT SAVED!'])
+                else
+                    disp(['Channels: ' num2str(channels) ', are too similar to the default output. DATA NOT SAVED'])
+                end
+                saved = false;
             end
-            saved = false;
         else
-            elData = sparse(electrodogram);
+            elData = sparse([outputDifference electrodogram]);
             if length(par.outFile) == 0
                 timestr = datestr(now,'yyyymmdd_HHMMSS');
                 save(['Output/elGramOutput_' timestr '.mat'], 'elData')
