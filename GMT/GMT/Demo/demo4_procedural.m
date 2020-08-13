@@ -161,7 +161,7 @@ par_elgram = struct(...
     'channelOrder', [1 5 9 13 2 6 10 14 3 7 11 15 4 8 12], ... % default F120 staggering order       
     'colorScheme', 4, ...       %  color scheme [1..4]
     'enablePlot', true, ...     %  plot electrodogram? [bool]
-    'outputFs', 200000, ...     %  output sampling frequency [Hz]
+    'outputFs', 55556, ...     %  output sampling frequency [Hz]
     'resistance', 10000 ...     %  load-board resistance [Ohm]
     );
 
@@ -215,7 +215,6 @@ sig_ft_ampWords                         = f120MappingFunc(par_mapper, sig_ft_car
                                             sig_frm_hilbertMod, sig_frm_steerWeights, sig_ft_idxFtToFrm); 
 
 elgram = f120ElectrodogramFunc(par_elgram, sig_ft_ampWords);  % plot electrogram
-
 saved = validateOutputFunc(par_validate,elgram);
 
 [audioOut,audioFs] = vocoderFunc(par_vocoder,elgram);

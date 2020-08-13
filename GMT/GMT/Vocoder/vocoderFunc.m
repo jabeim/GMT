@@ -1,7 +1,26 @@
 function [audioOut,audioFs] = vocoderFunc(par,electrodogram)
 % scan input parameters adding necessary default values
-defaultParNames = {'captFs','nCarriers','elecFreqs','spread','neuralLocsOct','nNeuralLocs','MCLmuA','TmuA','tAvg','audioFs','tauEnvMS','nl','resistorVal'};
-defaultParValues = {200000,20,[],[],[],300,[],[],.005,48000,10,8,2};
+defaultParNames = {'captFs','audioFs',};
+defaultParValues = {55556,48000};
+
+
+%% DO NOT EDIT
+% These values are set to match processing for contest submission. Changing
+% them will result in audio that will not match what is heard during the
+% judging phase
+par.nCarriers = 20;
+par.elecFreqs = [];
+par.spread = [];
+par.neuralLocsOct = [];
+par.nNeuralLocs = 300;
+par.MCLmuA = [];
+par.TmuA = [];
+par.tAvg = .005;
+par.tauEnvMS = 10;
+par.nl = 5;
+par.resistorVal = 2;
+
+
 
 for i = 1:length(defaultParNames)
     if ~isfield(par,defaultParNames{i})
@@ -11,8 +30,26 @@ end
 
 %% scale and preprocess electrodogram data
 scale2MuA = 500/par.resistorVal;
-electrodeAmp = electrodogram(:,2:end);   % the first column of data is actually channel similarity to the template.
-nElec = size(electrodogram,1);
+
+switch class(electrodogram)
+    case 'char'
+        electrodeAmp = readmatrix(electrodogram);
+        if length(size(electrodeAmp)) == 2 && any(size(electrodeAmp) == 16)
+            if size(electrodeAmp,1) == 16
+            else
+                electrodeAmp = electrodeAmp';
+            end
+        else
+            error(['Electrodogram has improper size. Detected size: [' num2str(size(electrodeAmp,1)) ',' num2str(size(electrodeAmp,2)) '], the first dimension should be length 16.'])
+        end
+    case 'double'
+%         electrodeAmp = electrodogram(:,2:end);   % the first column of data is actually channel similarity to the template.
+        electrodeAmp = electrodogram;
+    otherwise
+        error('wrong electrodogram input')
+end
+
+nElec = size(electrodeAmp,1);
 elData = electrodeAmp*scale2MuA;
 captTs = 1/par.captFs;
 
@@ -104,10 +141,11 @@ blkSize = mAvg;
 
 %% audio sample frequency of output
 if isempty(par.audioFs)
-    audioFs = ceil(tAvg*44100)/tAvg;
+    audioFs = fix(ceil(tAvg*44100)/tAvg);
 else
-    audioFs = ceil(tAvg*par.audioFs)/tAvg;
+    audioFs = fix(ceil(tAvg*par.audioFs)/tAvg);
 end
+
 audioTs = 1/audioFs;
 nAvg = round(tAvg/audioTs);
 tWin = 2*tAvg;
@@ -167,10 +205,13 @@ for blkNumber=1:floor(size(elData,2)/blkSize)
     timeIdx=((blkNumber-1)*blkSize+1) : (blkNumber*blkSize);
     EF=max(0,bsxfun(@plus,normRamp*elData(:,timeIdx),-normOffset));
     
+    EF = EF / 0.4 * 0.5;
     
     % normalized EF to activity
     nl = par.nl;
-    activity=max(0,min(exp(-nl+nl*EF),1)-exp(-nl))/(1-exp(-nl));  
+    % activity = max(0, min(exp(-nl+nl*EF),1)    - exp(-nl))/ (1 - exp(-nl));  
+    activity = max(0, min(exp(nl*EF), exp(nl)) - 1 ) / (exp(nl) - 1);
+
     
     for k=1:blkSize
         audioPwr(:,k+1)=max(audioPwr(:,k)*alpha + activity(:,k)*(1-alpha),activity(:,k));
@@ -179,21 +220,27 @@ for blkNumber=1:floor(size(elData,2)/blkSize)
     
     % averaged energy
     energy=sum(audioPwr,2)/mAvg;
+    
     % spectrum of audio from average window
     spect=(MneurToBin*energy).*exp(1i*phs);
     
     % reduce spectrum to tone frequency components
-    toneMags = interp1(fftFreqs,abs(spect),toneFreqs,'linear','extrap');
+    toneMags   = interp1(fftFreqs,abs(spect),toneFreqs,'linear','extrap');
     tonePhases = interp1(fftFreqs,angle(spect),toneFreqs,'linear','extrap');
     
-    interpSpect(:,blkNumber) = toneMags.*exp(1j*tonePhases);    
+    interpSpect(:,blkNumber) = toneMags.*exp(1j*tonePhases);
+    
+%     toneMags   = interp1(fftFreqs, (MneurToBin*energy), toneFreqs,'linear','extrap');
+%     toneMags = (MneurToBin*energy);
+    
+%     interpSpect(:,blkNumber) = toneMags;
 end
 
     %interpolated spectral envelope scaling
     specVec = (1:blkNumber)*nFFT/2;
     newTimeVec = 0:(nBlocks-(nFFT/2));
-    interpSpect2 = zeros(length(toneFreqs),length(newTimeVec));
-    modTones = zeros(size(interpSpect2));
+%     interpSpect2 = zeros(length(toneFreqs),length(newTimeVec));
+    modTones = zeros(length(toneFreqs),length(newTimeVec));
     
     %interpolate spectral envelope from frames back to td
     for freq = 1: length(toneFreqs)
@@ -201,10 +248,17 @@ end
         tEnvPhs = interp1(specVec,angle(interpSpect(freq,:)),newTimeVec,'linear','extrap');
         interpSpect2(freq,:) = tEnvMag.*exp(1j*tEnvPhs);
         modTones(freq,:) = tones(freq,1:end-(nFFT/2-1)).*abs(interpSpect2(freq,:));
+        
+%         tEnvMag = interp1(specVec,interpSpect(freq,:),newTimeVec,'linear','extrap');
+%         modTones(freq,:) = tones(freq,1:end-(nFFT/2-1)) .* tEnvMag;
     end
     
     audioOut = sum(modTones,1);
-
+    
+    % fixed output level to -25dB so that differences in overall loudness
+    % will not impact judging
+    audioOut = audioOut/rms(audioOut)*10^(-25/20);
+    
     if isfield(par,'saveAudioOutput') && par.saveAudioOutput == true
         if isfield(par,'audioOutputFile') && ~isempty(par.audioOutputFile)
             audiowrite(['Output' filesep par.audioOutputFile],audioOut,audioFs)

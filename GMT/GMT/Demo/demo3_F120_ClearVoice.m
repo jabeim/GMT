@@ -65,7 +65,7 @@ strat.connect(csynth, 2, map, 4);
 
 strat.connect(map, egram);
 
-egram.outputFs = 200000;   % 200 kHz scope sampling rate 
+egram.outputFs = 55556;   % 200 kHz scope sampling rate 
 egram.resistance = 10000;  % 10 kOhm load-board resistors
 egram.colorScheme = 4;
 
