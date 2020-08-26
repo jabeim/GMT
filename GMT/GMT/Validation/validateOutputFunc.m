@@ -4,7 +4,7 @@ function saved = validateOutputFunc(par,electrodogram)
         electrodogram = loaded.elData;
     end
     
-    if par.elgramFs ~= 55556; error('Electrodogram must be generated with 200 kHz sampling rate'); end
+    if par.elgramFs ~= 55556; error('Electrodogram must be generated with 55556 Hz sampling rate'); end
         
     if length(size(electrodogram)) ~= 2; error('Electrodogram must be a 2 dimensional matrix!'); end
     if size(electrodogram,1) ~= 16
