@@ -23,7 +23,7 @@ function saved = validateOutputFunc(par,electrodogram)
     defaultData = load(['Validation\' validationFileName]);
     outputDifference = sum(electrodogram-full(defaultData.elData),2);
 
-    elData = full(electrodogram);
+    elData = sparse(electrodogram);
     
     if par.saveWithoutValidation == true
         if any(outputDifference < par.differenceThreshold)
@@ -38,11 +38,11 @@ function saved = validateOutputFunc(par,electrodogram)
         
         if length(par.outFile) == 0
             timestr = datestr(now,'yyyymmdd_HHMMSS');
-%             save(['Output/elGramOutput_' timestr '.mat'], 'elData')
-            csvwrite(['Output/elGramOutput_' timestr '.dat'], elData)
+            save(['Output/elGramOutput_' timestr '.mat'], 'elData')
+%             csvwrite(['Output/elGramOutput_' timestr '.dat'], elData)
         else
-%             save(['Output/' par.outFile],'elData')
-            csvwrite(['Output/' par.outFile],elData)
+            save(['Output/' par.outFile],'elData')
+%             csvwrite(['Output/' par.outFile],elData)
         end
         saved = true;
         
@@ -59,11 +59,11 @@ function saved = validateOutputFunc(par,electrodogram)
 %             elData = sparse([outputDifference electrodogram]);
             if length(par.outFile) == 0
                 timestr = datestr(now,'yyyymmdd_HHMMSS');
-%                 save(['Output/elGramOutput_' timestr '.mat'], 'elData')
-                csvwrite(['Output/elGramOutput_' timestr '.dat'], elData)
+                save(['Output/elGramOutput_' timestr '.mat'], 'elData')
+%                 csvwrite(['Output/elGramOutput_' timestr '.dat'], elData)
             else
-    %             save(['Output/' par.outFile],'elData')
-                csvwrite(['Output/' par.outFile],elData)
+                save(['Output/' par.outFile],'elData')
+%                 csvwrite(['Output/' par.outFile],elData)
             end
             saved = true;
         end      

@@ -18,7 +18,7 @@ par.TmuA = [];
 par.tAvg = .005;
 par.tauEnvMS = 10;
 par.nl = 5;
-par.resistorVal = 2;
+par.resistorVal = 10;
 
 
 
@@ -222,18 +222,18 @@ for blkNumber=1:floor(size(elData,2)/blkSize)
     energy=sum(audioPwr,2)/mAvg;
     
     % spectrum of audio from average window
-    spect=(MneurToBin*energy).*exp(1i*phs);
+%     spect=(MneurToBin*energy).*exp(1i*phs);
+%     
+%     % reduce spectrum to tone frequency components
+%     toneMags   = interp1(fftFreqs,abs(spect),toneFreqs,'linear','extrap');
+%     tonePhases = interp1(fftFreqs,angle(spect),toneFreqs,'linear','extrap');
+%     
+%     interpSpect(:,blkNumber) = toneMags.*exp(1j*tonePhases);
     
-    % reduce spectrum to tone frequency components
-    toneMags   = interp1(fftFreqs,abs(spect),toneFreqs,'linear','extrap');
-    tonePhases = interp1(fftFreqs,angle(spect),toneFreqs,'linear','extrap');
-    
-    interpSpect(:,blkNumber) = toneMags.*exp(1j*tonePhases);
-    
-%     toneMags   = interp1(fftFreqs, (MneurToBin*energy), toneFreqs,'linear','extrap');
+    toneMags   = interp1(fftFreqs, (MneurToBin*energy), toneFreqs,'linear','extrap');
 %     toneMags = (MneurToBin*energy);
     
-%     interpSpect(:,blkNumber) = toneMags;
+    interpSpect(:,blkNumber) = toneMags;
 end
 
     %interpolated spectral envelope scaling
@@ -244,13 +244,13 @@ end
     
     %interpolate spectral envelope from frames back to td
     for freq = 1: length(toneFreqs)
-        tEnvMag = interp1(specVec,abs(interpSpect(freq,:)),newTimeVec,'linear','extrap');
-        tEnvPhs = interp1(specVec,angle(interpSpect(freq,:)),newTimeVec,'linear','extrap');
-        interpSpect2(freq,:) = tEnvMag.*exp(1j*tEnvPhs);
-        modTones(freq,:) = tones(freq,1:end-(nFFT/2-1)).*abs(interpSpect2(freq,:));
-        
-%         tEnvMag = interp1(specVec,interpSpect(freq,:),newTimeVec,'linear','extrap');
-%         modTones(freq,:) = tones(freq,1:end-(nFFT/2-1)) .* tEnvMag;
+%         tEnvMag = interp1(specVec,abs(interpSpect(freq,:)),newTimeVec,'linear','extrap');
+%         tEnvPhs = interp1(specVec,angle(interpSpect(freq,:)),newTimeVec,'linear','extrap');
+%         interpSpect2(freq,:) = tEnvMag.*exp(1j*tEnvPhs);
+%         modTones(freq,:) = tones(freq,1:end-(nFFT/2-1)).*abs(interpSpect2(freq,:));
+%         
+        tEnvMag = interp1(specVec,interpSpect(freq,:),newTimeVec,'linear','extrap');
+        modTones(freq,:) = tones(freq,1:end-(nFFT/2-1)) .* tEnvMag;
     end
     
     audioOut = sum(modTones,1);
