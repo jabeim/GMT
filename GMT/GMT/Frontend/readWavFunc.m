@@ -59,8 +59,6 @@ else
         otherwise
             error(['Data type ' class(signalIn) ' not supported.'])
     end
-    
-
     signalIn = cast(signalIn,'double')/(maxBit+1);
     
 end

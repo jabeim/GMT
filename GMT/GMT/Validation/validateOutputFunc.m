@@ -17,12 +17,49 @@ function saved = validateOutputFunc(par,electrodogram)
     
     inputFileName = par.parent.wavFile;
     fnStart = strfind(inputFileName,filesep);
-  
-    validationFileName = [inputFileName(fnStart(end)+1:strfind(inputFileName,'.wav')-1) '_validation.mat'];
+    validationFileName = inputFileName(fnStart(end)+1:strfind(inputFileName,'.wav')-1);
     
-    defaultData = load(['Validation\' validationFileName]);
-    outputDifference = sum(electrodogram-full(defaultData.elData),2);
+    try
+        defaultData = load(['Validation' filesep validationFileName '_validation.mat']);
+    catch err
+        % add some verbosity about file not found
+        if err
+            if par.skipValidation == true
+                warning(['No validation file found for source file: ' inputFileName ' skipping matrix similarity comparison!'])
+                defaultData.elData = electrodogram;
+            else
+                rethrow(err);
+            end
 
+        end
+    end
+   
+    % compare length to validation file
+    if size(defaultData.elData,2)*.99 <= size(electrodogram,2) < size(defaultData.elData,2)*1.01
+        
+    else
+        error(['Electrodogram length exceeds validation tolerance. Expected: ' num2str(size(defaultData,2)) ' samples. +-' num2str(lengthTolerance) '%, found: ' num2str(size(electrodogram,2)) 'samples.'])
+    end
+    
+    
+    % check for charge balancing
+    chargeBalance = zeros(size(electrodogram,1));
+    for i = 1:size(electrodogram,1)
+        if sum(electrodogram(i,:)) > eps
+            chargeBalance(i) = 1;
+        end
+    end
+   
+    if sum(chargeBalance) > 0
+        error(['Channels: ' numstsr(find(chargeBalance)) ' are not charge balanced. Within-channel current must sum to 0.'])
+    end
+    
+    % matrix subtraction comparison to catch exact duplicates
+    if size(electrodogram) == size(defaultData,elData)
+        outputDifference = sum(electrodogram-full(defaultData.elData),2);
+    else
+        outputDifference = zeros(size(electrodogram,1));
+    end
     elData = sparse(electrodogram);
     
     if par.saveWithoutValidation == true
@@ -59,10 +96,10 @@ function saved = validateOutputFunc(par,electrodogram)
 %             elData = sparse([outputDifference electrodogram]);
             if length(par.outFile) == 0
                 timestr = datestr(now,'yyyymmdd_HHMMSS');
-                save(['Output/elGramOutput_' timestr '.mat'], 'elData')
+                save(['Output' filesep validationFileName '_elGramOutput_' timestr '.mat'], 'elData')
 %                 csvwrite(['Output/elGramOutput_' timestr '.dat'], elData)
             else
-                save(['Output/' par.outFile],'elData')
+                save(['Output' filesep validationFileName '_elGramOutput_' par.outFile],'elData')
 %                 csvwrite(['Output/' par.outFile],elData)
             end
             saved = true;
