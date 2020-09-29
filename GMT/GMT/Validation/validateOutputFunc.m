@@ -36,6 +36,31 @@ function saved = validateOutputFunc(par,electrodogram)
    
     % compare length to validation file
     if size(defaultData.elData,2)*.99 <= size(electrodogram,2) < size(defaultData.elData,2)*1.01
+        if size(defaultData.elData) == size(electrodogram)
+            % matrix subtraction comparison to catch exact duplicates
+            outputDifference = sum(electrodogram-full(defaultData.elData),2);
+        else
+            %use xcorr to find optimal lag
+            lengthDifference = size(defaultData.elData,2)-size(electrodogram,2);
+            if lengthDifference > 0
+               % default data is longer than electrodogram, zero pad the
+               % beginning of electrodogram for comparison
+               temp = [zeros(size(defaultData.elData,1),lengthDifferences) electrodogram];
+               
+               for i = 1:size(defaultData.elData,1)
+                   channelXcorr = xcorr(defaultData.elData(i,:),electrodogram);
+                   [~,lag(i)] = max(channelXcorr);
+                   outputDifference(i) = sum(temp(i,:)-full(defaultData.elData(i,:))
+               end
+               
+               
+            else
+                
+            end
+            
+            
+            
+        end
         
     else
         error(['Electrodogram length exceeds validation tolerance. Expected: ' num2str(size(defaultData,2)) ' samples. +-' num2str(lengthTolerance) '%, found: ' num2str(size(electrodogram,2)) 'samples.'])
@@ -54,12 +79,7 @@ function saved = validateOutputFunc(par,electrodogram)
         error(['Channels: ' numstsr(find(chargeBalance)) ' are not charge balanced. Within-channel current must sum to 0.'])
     end
     
-    % matrix subtraction comparison to catch exact duplicates
-    if size(electrodogram) == size(defaultData,elData)
-        outputDifference = sum(electrodogram-full(defaultData.elData),2);
-    else
-        outputDifference = zeros(size(electrodogram,1));
-    end
+
     elData = sparse(electrodogram);
     
     if par.saveWithoutValidation == true
