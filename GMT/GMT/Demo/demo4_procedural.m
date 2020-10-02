@@ -158,16 +158,17 @@ par_mapper = struct( ...
 par_elgram = struct(...
     'parent', par_strat, ...
     'cathodicFirst', true, ...  %  start pulse with cathodic phase? [bool] 
-    'channelOrder', [1 5 9 13 2 6 10 14 3 7 11 15 4 8 12], ... % default F120 staggering order       
-    'colorScheme', 4, ...       %  color scheme [1..4]
+    'channelOrder', [1 5 9 13 2 6 10 14 3 7 11 15 4 8 12], ... % default F120 staggering order [DO NOT MODIFY]
     'enablePlot', true, ...     %  plot electrodogram? [bool]
+    'colorScheme',2,...
     'outputFs', 55556, ...     %  output sampling frequency [Hz]
     'resistance', 10000 ...     %  load-board resistance [Ohm]
     );
 
 par_validate = struct(...
     'parent',par_strat,...
-    'saveWithoutValidation',true,...        % force saving files even if validation fails [FOR TESTING]
+    'lengthTolerance',15,...                % maximum allowable difference between validation file and submitted data
+    'saveIfSimilar',true,...                % force saving files even if result is similar to default processing [FOR TESTING]
     'differenceThreshold',1,...             % minimum current difference across time for each channel
     'maxSimilarChannels',8,...              % max number of similar channels allowed before preventing save
     'elgramFs',par_elgram.outputFs,...      % match electrodogram sampling frequency
