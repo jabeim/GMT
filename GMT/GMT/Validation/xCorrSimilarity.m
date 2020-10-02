@@ -6,8 +6,6 @@
 
 function outputDifferences = xCorrSimilarity(x,y)
 
-
-
 if length(y) == length(x)
     % no resizing necessary if arrays match in size
 elseif abs(length(y)-length(x)) > 0.01*max([length(x) length(y)])
@@ -20,15 +18,13 @@ else
 end
 
 [r,lags] = xcorr(y,x);
-peakInd = lags(abs(r)==max(abs(r)));
+peakInd = lags(r==max(r));
 
 if peakInd == 0
 elseif peakInd > 0
-    y = y(peakInd+1:end);
-    x = x(1:length(y));   
+    y = [y(peakInd+1:end) zeros(1,length(x)-length(y(peakInd+1:end)))];
 else   
-    x = x(abs(peakInd)+1:end);
-    y = y(1:length(x));
+    x = [x(abs(peakInd)+1:end) zeros(1,length(y)-length(x(abs(peakInd)+1:end)))];
 end
 
 outputDifferences = sum(abs(x-y));

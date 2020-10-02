@@ -1,13 +1,47 @@
 function [audioOut,audioFs] = vocoderFunc(par,electrodogram)
-% scan input parameters adding necessary default values
-defaultParNames = {'captFs','audioFs',};
-defaultParValues = {55556,48000};
+% [audioOut,audioFs] = vocoderFunc(par,electrodogram)
+%
+% The vocoder function transforms a matrix of electrode pulses into an
+% acoustic wavform, optionally saving the data to disk as a file. The
+% vocoder is intended to be used to perceptualize the changes of your
+% signal processing. 
+% It is not intended to be optimized by contestants.
+% Any changes made to the vocoder will not persist during the judging phase
+% of the contest.
+%
+% DO NOT EDIT ANY PARAMETERS THAT HAVE BEEN HARD CODED BY DEFAULT!!!
+%
+% INPUTS:
+%   electrodogram: a matrix of cochlear implant current pulses by channel
+%   over time (nChan x nSamp). Current amplitudes should be specified in
+%   microamps [uA].
+%
+% FIELDS FOR PAR:
+%   audioFs - the desired audio output sampling frequency. This is not
+%       exact and is rounded to match internal vocoder processing requirements,48000 [Hz]
+%   saveAudioOutput - whether or not to save the resulting output to a file, false [bool]
+%   audioOutputFile - used as the name of the file if saveAudioOutput istrue, '', [string]
+%
+%
+% OUTPUTS
+%   audioOut - the floating point audio data resulting from the vocoder signal processing
+%   audioFs - the calulated audio sampling frequency useful for playback.
+%       This can be slightly different than specified in par.audioFs
+
+
+%% Initialization
+% set up default values for essential parameters in PAR
+defaultParNames = {'audioFs','saveAudioOutput','audioOutputFile'};
+defaultParValues = {48000,true,''};
 
 
 %% DO NOT EDIT
 % These values are set to match processing for contest submission. Changing
 % them will result in audio that will not match what is heard during the
 % judging phase
+
+% Initialize contest-compatible vocoder settings
+par.captFs = 55556;
 par.nCarriers = 20;
 par.elecFreqs = [];
 par.spread = [];
@@ -18,10 +52,10 @@ par.TmuA = [];
 par.tAvg = .005;
 par.tauEnvMS = 10;
 par.nl = 5;
-par.resistorVal = 10;
 
 
 
+% scan optional arguments and assign values based on the defaults
 for i = 1:length(defaultParNames)
     if ~isfield(par,defaultParNames{i})
         par.(defaultParNames{i}) = defaultParValues{i};
@@ -29,7 +63,8 @@ for i = 1:length(defaultParNames)
 end
 
 %% scale and preprocess electrodogram data
-scale2MuA = 500/par.resistorVal;
+% scale2MuA = 500/par.resistorVal;
+scale2MuA = 1;
 
 switch class(electrodogram)
     case 'char'

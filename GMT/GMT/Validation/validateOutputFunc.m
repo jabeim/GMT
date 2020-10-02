@@ -81,6 +81,7 @@ function saved = validateOutputFunc(par,electrodogram)
         outputDifference = [];  % leave empty validation matrix, this will pass through validation as a case where no channels are similar
     else
         if size(validationData,2)-par.lengthTolerance <= size(electrodogram,2) < size(validationData,2)+par.lengthTolerance
+            outputDifference = zeros(1,size(electrodogram,1));
             for i = 1:size(validationData,1)
                 outputDifference(1,i) = xCorrSimilarity(validationData(i,:),full(electrodogram(i,:)));
             end

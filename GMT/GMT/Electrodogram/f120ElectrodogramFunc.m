@@ -14,12 +14,11 @@
 %   outputFs - output sampling frequency; [] for native FT rate  [Hz] [[]]
 %              (resampling is done using zero-order hold method)
 %   cathodicFirst - start biphasic pulse with cathodic phase [bool] [true]
-%   resistance - load-board resistance; [] (or 1) to return values in uA  [Ohm] [[]]
 %   enablePlot - generate electrodogram plot? [bool] 
 %   colorScheme - color scheme for plot; [1..4] 1/2 more subdued, 3/4 more strident colors; odd/even affects color order
 %
 % Output: 
-%   elGram - 16 x nSamp matrix of electrode current flow; [uA]/[V] depending on resistance 
+%   elGram - 16 x nSamp matrix of electrode current flow; [uA]
 
 % Change log:
 % 16 Aug 2019, PH - created
@@ -29,7 +28,8 @@ function elGram = f120ElectrodogramFunc(par, ampIn)
     strat = par.parent;
     
     fsOut = par.outputFs;
-    rOut = par.resistance;
+%     rOut = par.resistance;
+    rOut = [];  % removed resistance as a parameter
     nFrameFt = size(ampIn,2);
     nChan = strat.nChan;
     pulseWidth = strat.pulseWidth;  % us
