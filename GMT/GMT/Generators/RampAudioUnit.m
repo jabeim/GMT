@@ -12,11 +12,7 @@
 %    #1 - ramped audio vector  
 %
 % See also: rampAudioFunc
-
-% Change log:
-% 17/08/2015, PH - created
-% 22/Jun/2017, PH - SetObservable properties
-% 13 Jul 2017, PH - added 'zero' ramp option
+% Copyright (c) 2015-2020 Advanced Bionics. All rights reserved.
 classdef RampAudioUnit < ProcUnit
    properties (SetObservable)
       durRampOn = 0; % onset ramp duration [sec] {0}

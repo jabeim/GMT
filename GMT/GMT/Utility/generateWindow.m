@@ -12,10 +12,7 @@ function window = generateWindow(wName, wLength)
 % OUTPUT:
 %    window - generated data window
 %
-% Change log:
-% 2012, MM/PH - created
-% 19 Dec 2014, PH - removed case sensitivity
-% 04 Jun 2018, PH - added option to specify function handle 
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
 if isa(wName, 'function_handle')
     window = feval(wName, wLength);

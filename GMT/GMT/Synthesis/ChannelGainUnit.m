@@ -17,13 +17,7 @@
 %
 % See also: channelGainFunc.m
 %
-% Change log:
-% 16/08/2012, P.Hehrmann - created
-% 25/02/2013, P.Hehrmann - added doc
-% 03/09/2014, PH - added option 'maintainUnassigned' 
-% 02/12/2014, PH - removed optional 'scale' input (#3) and output(#2)
-% 19/12/2014, PH - 'run' adjusted to new ProcUnit interface (getInput, setOutput)
-% 27 Jun 2017, PH - SetObservable properties 
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 classdef ChannelGainUnit < ProcUnit
     
     properties (SetObservable)

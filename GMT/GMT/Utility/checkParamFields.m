@@ -5,12 +5,10 @@
 % INPUT:
 %    param - struct or object
 %    requiredFields - cell array of strings containing required field names
-% 
-% Change log:
-% Apr. 2012, M.Milczynki - created
-% 30/04/2012, P.Hehrmann - added support for objects
-function ok = checkParamFields(param, requiredFields)
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
+function ok = checkParamFields(param, requiredFields)
 if (isstruct(param))    % param is a struct
     for j = 1:length(requiredFields)
         if ~isfield(param, requiredFields{j})

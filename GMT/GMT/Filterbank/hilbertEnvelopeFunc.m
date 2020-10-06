@@ -12,14 +12,8 @@ function [env, envNoLog] = hilbertEnvelopeFunc(par, X)
 %
 % OUTPUT:
 %   - env : hilbert envelopes, one row per channel
-
-% Change log:
-% 2012, MM - created
-% 24/11/2014, PH - removed mandatory "scale" argument
-% 08/01/2015, PH - renamed extractEnvelopeFunc -> hilbertEnvelopeFunc  
-% 29/05/2015, PH - adapted to May 2015 framework: shared props removed
-% 17/07/2019, PH - added par.outputOffset, removed scale input entirely,
-%                  cleaned up / explained log correction constant
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 strat = par.parent;
 nChan = strat.nChan;
 startBin = strat.startBin;

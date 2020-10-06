@@ -10,16 +10,8 @@
 %    #1  - log2 Hilbert envelopes (nCh x nFrames)
 %   [#2] - linear Hilbert envelopes (nCh x nFrames)
 %
-% See also: extractEnvelopeFunc.m
-
-% Change log:
-% 2012, MM - created
-% 24/11/2014, PH - removed scale input (cf. ...Func), added documentation
-% 08/01/2015, PH - renamed ExtractEnv... -> HilbertEnv...
-% 08/01/2015, PH - use getInput /setOutput instead getData/setData
-% 26/03/2015, RK - use getInput /setOutput instead getData/setData
-% 29/05/2015, PH - adapted to May 2015 framework: shared props removed
-% 17/07/2019, PH - added outputOffset property
+% See also: hilbertEnvelopeFunc.m
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
 classdef HilbertEnvelopeUnit < ProcUnit
     properties (SetObservable)

@@ -2,8 +2,7 @@
 % MATLAB path to avoid namespace collisions
 %
 % The environment variable GMTROOT needs to be set.
-%
-% 28.05.2018 Joachim Thiemann created
+
 global GMTROOT
 
 if isempty(GMTROOT)

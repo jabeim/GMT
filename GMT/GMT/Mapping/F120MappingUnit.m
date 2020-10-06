@@ -27,12 +27,47 @@
 % Output Ports:
 %   1 - 30 x nFrames vector of current amplitudes with 2 successive rows
 %       for each of the 15 physical electrode pairs; muAmp
+% ampWords = f120MappingFunc(par, carrier, env, weights, idxAudioFrame)
+%
+% Map envelope amplitudes to elec stimulation current according to 
+%   f(x)  = (M-T)/IDR * (x - SAT + 12dB + IDR + G)) + T 
+%         = (M-T)/IDR * (x - SAT + 12dB + G) + M
+% with  
+%       x - envelope value  [dB]  (per electode and frame)
+%       M - electric M-Level [uA] (per electrode)
+%       T - electric T-Level [uA] (per electrode)
+%     IDR - input dynamic range [dB] (per electrode)
+%       G - gain [dB] (per electrode)
+%     SAT - the envelope saturation level [dB] 
+% and apply fine-structure carrier signal. See Nogueira et al. (2009) for details.    
+% 
+% INPUT:
+%   carrier - nChan x nFtFrame matrix of carrier signals (range 0..1), sampled at FT rate 
+%   env - nChan x nAudFrame matrix of channel envelopes (log2 power) 
+%   weights - 2*nCh x nAudFrame matrix of current steering weights (in [0,1]) 
+%   idxAudioFrame - index of corresponding audio frame corresponding to 
+%                   each FT (forward telemetry) frame / stimulation cycle
+%
+% FIELDS FOR PAR:
+%   parent.nChan - number of envelope channels   
+%   mapM - M levels, 1 x nEl [uA]
+%   mapT - T levels, 1 x nEl [uA]
+%   mapIdr - IDRs, 1 x nEl [dB]
+%   mapGain - electrode gains, 1 x nEl [dB] 
+%   mapClip - clipping levels, 1 x nl [uA] 
+%   chanToElecPair - 1 x nChan vector defining mapping of logical channels
+%                    to electrode pairs (1 = E1/E2, ...)
+%   carrierMode - how to apply carrier [0/1/2] [default: 1]
+%                   0 - don't apply carrier (i.e. set carrier == 1)
+%                   1 - apply to channel envelopes (mapper input)  [default]
+%                   2 - apply to mapped stimulation amplitudes (mapper output)
+%
+% OUTPUT:
+%   ampWords - 30 x nFrames vector of current amplitudes with 2 successive 
+%              rows for each of the 15 physical electrode pairs; muAmp
+%
+% Copyright (c) 2019-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 04/05/2015, PH - created
-% 23/06/2017, PH - SetObservable properties
-% 22/07/2019, PH - add carrierMode property,
-%                  minor refactoring, added comments 
 classdef F120MappingUnit < ProcUnit 
    
     properties (SetObservable)

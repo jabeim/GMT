@@ -18,6 +18,7 @@
 %   #1 - description/dimensions of data stored at output port #1 [UNITS]
 %
 % See also: PROCFUNCNAME [refer to relevant functions/classes]
+% Copyright (c) 20XX Advanced Bionics. All rights reserved.
 
 % Change log:
 % DD/MM/YYYY, [initials] - [changes implemented]

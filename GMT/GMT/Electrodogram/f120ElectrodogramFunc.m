@@ -19,11 +19,9 @@
 %
 % Output: 
 %   elGram - 16 x nSamp matrix of electrode current flow; [uA]
+%
+% Copyright (c) 2019-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 16 Aug 2019, PH - created
-% 08 Oct 2019, PH - added color scheme option 
-%                 - improved plotting performance
 function elGram = f120ElectrodogramFunc(par, ampIn)
     strat = par.parent;
     

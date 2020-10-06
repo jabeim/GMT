@@ -9,10 +9,8 @@
 % 
 % Output Ports:
 %   #1 - filtered audio signal
-
-% Change log:
-% 16/04/2012 P.Hehrmann - created
-% 09/10/2015, PH - adjusted spelling of parent class
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 classdef HarmonyPreemphasisUnit < TdFilterUnit
     properties (Constant)
         HARMONY_PREEMPH_A = [1.0000   -1.5299    0.5453];

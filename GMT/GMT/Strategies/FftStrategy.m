@@ -7,10 +7,8 @@
 %   windowType - FFT window used; string  ['blackhann']
 %   startBin - index of 1st FFT bin in the lowest filterbank channel [one-based] [6]
 %   nBinLims - 1 x nChan vector, nr of FFT bins per channel [int > 0] [default F120 allocation]
-
-% Change log:
-% 11/05/2015, P.Hehrmann - created
-% 02 Aug 2019, PH - added comments and constructor
+%
+% Copyright (c) 2015-2020 Advanced Bionics. All rights reserved.
 classdef FftStrategy < Strategy
     properties
         nFft = 256; % FFT length [samples] [256]

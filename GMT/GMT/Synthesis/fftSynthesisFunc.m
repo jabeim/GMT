@@ -29,21 +29,8 @@
 % Otherwise, the output of the IFFT is multiplied by synScaling.
 %
 % See also FftSynthesisUnit, generateWindow
-
-% Change log:
-% 02/05/2012 P.Hehrmann - created
-% 25/07/2012 PH - adapted to framework v1.1 (pu... -> sp...)
-% 06/08/2013 PH - improved memory efficiency 
-% 02/12/2014 PH - removed 'scale' input 
-% 08/01/2015 PH - pu... -> sp... (..again)
-% 01/06/2015, PH - adapted to May 2015 framework: removed shared props
-% 25/04/2017, PH - added "combineDcNy" option
-% 27 Jun 2017, PH - remove shared props
-%                 - bug fix, combineDcNy
-% 18 Jul 2017, PH - refactoring, moved "unbuffer" function and auto-scaling 
-%                   code into their own funcion files. (unbuffer.m, computeSynScaling.m)  
-% 21 Aug 2017, PH - add compensateFftLength option
-% 10 Jan 2017, PH - add outputGain parameter
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 function wav = fftSynthesisFunc(spec, par)
 
 % check for required parameters

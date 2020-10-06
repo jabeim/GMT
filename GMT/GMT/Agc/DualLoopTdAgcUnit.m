@@ -38,18 +38,7 @@
 %   #2  - 1 x nSamp linear gain vector 
 %
 % See also: dualLoopTdAgcFunc, ProcUnit
-
-% Change log:
-% 27/10/2012, P. Hehrmann - created
-% 03/05/2013, PH - added second input for control signal
-% 08/01/2015, PH - use getInput/setOutput instead of getData/setData
-% 01/06/2015, PH - adapted to May 2015 framework: removed shared props
-% 29/07/2015, PH - added doc
-% 28/09/2015, PH - added 'auto' option (cXxxxInit = []) for initial conditions
-% 21/Jun/2017, PH - SetObservable properties
-% 01/Dec/2017, PH - add "controlMode" property
-% 12 Aug 2019, PH - updated documentation
-% 15 Aug 2019, PH - swapped dualLoopTdAgcFunc arguments
+% Copyright (c) 2012 - 2020 Advanced Bionics. All rights reserved.
 classdef DualLoopTdAgcUnit < ProcUnit
     properties (SetObservable)
         kneePt = 4.476 ;% compression threshold [log2] [4.476; approx. -53.6 dB FS peak for sine input]

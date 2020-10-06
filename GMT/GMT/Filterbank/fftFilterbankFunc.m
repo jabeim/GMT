@@ -14,16 +14,8 @@
 %
 % OUTPUT:
 %   X - FFT coefficient matrix, (NFFT/2) x nFrames or (NFFT/2+1) x nFrames depending on includeNyquistBin
-
-% Change log:
-% 2012, MM - created
-% 01/08/2015, PH - renamed fftFilterBankFunc -> fftFilterbankFunc
-% 29/05/2015, PH - adapted to May 2015 framework: shared props removed
-% 25/04/2017, PH - added "combineDcNy" option
-% 21 Aug 2017, PH - add compensateFftLength option
-% 01 Jun 2018, PH - add includeNyquistBin option
-% 13/08/2018, J.Thiemann - add multichannel support
-% 15 Aug 2019, PH - swapped function arguments
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 function X = fftFilterbankFunc(par, buf)
 
 nFft = par.parent.nFft;

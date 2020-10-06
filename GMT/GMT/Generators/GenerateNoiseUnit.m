@@ -5,13 +5,7 @@
 %   *dur - duration in sec [5] 
 %   *peak - peak amplitude [1];
 %
-% Change log:
-% ??, MM - created
-% 08/01/2015, PH - use getInput/setOutput instead of getData/setData
-%                  remove nInput/nOutput constructor args
-% 22/Jun/2016, PH - SetObservable properties, some documentation
-% 06/07/2018, JT - Added Impulse "noise" type
-
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
 classdef GenerateNoiseUnit < ProcUnit
    properties (SetObservable)

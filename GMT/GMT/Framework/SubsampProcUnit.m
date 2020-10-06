@@ -9,9 +9,8 @@
 %   dsFactor - integer downsampling factor 
 %   dsSkip   - integer number of leading input frames to skip; for vector
 %              inputs, time is assumed to be the second dimension (i.e. columns)
-
-% Change log:
-% 04 Jul 2017, PH - created
+%
+% Copyright (c) 2017-2020 Advanced Bionics. All rights reserved.
 classdef SubsampProcUnit < ProcUnit
    
     properties(SetObservable)

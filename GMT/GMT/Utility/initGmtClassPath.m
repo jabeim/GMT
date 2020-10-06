@@ -14,9 +14,7 @@
 %
 % See also: javaaddpath, clear
 %
-% Change log:
-% 08 Dec 2012, P.Hehrmann - created
-% 20 Dec 2012, PH - protect global variables 
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 function initGmtClassPath
 
 jPath___ = javaclasspath('-all');

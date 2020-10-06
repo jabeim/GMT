@@ -28,21 +28,8 @@
 %   #1 - synthesized real-valued signal vector
 %
 % See also fftSynthesisFunc, generateWindow, FFTFilterBankUnit
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 02/05/2012 P.Hehrmann - created
-% 25/07/2012 PH - adapted to framework v1.1 (shared properties)
-% 06/08/2013 PH - improved memory efficiency
-% 02/12/2014 PH - removed 'scale' input (#2) and unused constructor args
-% 19/12/2014 PH - bug fix (scale)
-% 08/01/2015 PH - renamed FftSynthesisUnit, removed 'pu...' properties % (->sp...),
-%                 use getInput /setOutput instead getData/setData
-% 01/06/2015, PH - adapted to May 2015 framework: removed shared props
-% 16/09/2015, PH - added class documentation
-% 25/04/2017, PH - added "combineDcNy" option
-% 26 Jun 2017, PH - make properties SetAccess=private
-% 21 Aug 2017, PH - add compensateFftLength property
-% 10 Jan 2017, PH - add outputGain
 classdef FftSynthesisUnit < ProcUnit
     properties (SetAccess = immutable)
        synWindowType = 'blackhann'; % synthesis window type

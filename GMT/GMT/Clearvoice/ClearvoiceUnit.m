@@ -29,19 +29,8 @@
 %  enableContinuous - save/restore states across repeated calls of run [bool] [false]
 %
 % See also: clearvoiceFunc
+% Copyright (c) 2012 - 2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 07 Feb 2013, P.Hehrmann - created
-% 18 Jun 2013, S.Fredelake - added optional outputs 3 & 4
-% 18 Jun 2013, PH - updated documentation
-% 19 Dec 2014, PH - 'run' adjusted to new ProcUnit interface (getInput, setOutput)
-% 04 May 2015, PH - removed unused sharep prop (NFFT)
-% 02 Jul 2015, PH - adapted to May 2015 framework: removed shared props
-% 21/Jun/2017, PH - SetObservable properties
-% 24 Jan 2018, PH - add enableContinuous property
-% 02 Aug 2019, PH - added noiseEstDecimation and gainDomain parameter 
-%                 - changed ...Func interface
-% 15 Aug 2019, PH - swapped clearvoiceFunc output arguments
 classdef ClearvoiceUnit < ProcUnit
     properties (SetObservable)
        gainDomain = 'linear'; % domain of gain output on port 2 (if applicable) ['linear','db','log2'] ['linear']

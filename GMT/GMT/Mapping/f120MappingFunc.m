@@ -1,4 +1,3 @@
-function ampWords = f120MappingFunc(par, carrier, env, weights, idxAudioFrame)
 % ampWords = f120MappingFunc(par, carrier, env, weights, idxAudioFrame)
 %
 % Map envelope amplitudes to elec stimulation current according to 
@@ -37,11 +36,10 @@ function ampWords = f120MappingFunc(par, carrier, env, weights, idxAudioFrame)
 % OUTPUT:
 %   ampWords - 30 x nFrames vector of current amplitudes with 2 successive 
 %              rows for each of the 15 physical electrode pairs; muAmp
+%
+% Copyright (c) 2015-2020 Advanced Bionics. All rights reserved.
+function ampWords = f120MappingFunc(par, carrier, env, weights, idxAudioFrame)
 
-% Change log:
-% 04/05/2015, PH - created
-% 07/22/2019, PH - add carrierMode parameter,
-%                  refactoring and code documentation
 strat    = par.parent;
 M        = par.mapM;
 T        = par.mapT;

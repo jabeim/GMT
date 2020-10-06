@@ -13,19 +13,8 @@
 %
 % OUTPUT:
 %   signalIn - samples of wav-file
-
-% Change log:
-%  Apr 2012, M. Milczynski - created
-%  14 Jan 2013, PH - wav file can now be specified either by an input
-%                DataUnit (previous behavior), or by property 'wavFile' 
-%                (new behavior); might deprecate old behavior for
-%                release version
-%  09 Apr 2013, PH - improved backwards compatibility with Matlab
-%  09/01/2015, PH - removed option to specify name as individual argument
-%  18/01/2015, PH - add property tStartEnd to ReadWavUnit
-%  14/04/2015, PH - use audioread for Matlab >= 2012b (wavread otherwise)
-%  29/05/2015, PH - adapted to May 2015 framework: shared props removed
-%  29/02/2016, PH, added iChannel and "auto" file extension
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 function signalIn = readWavFunc(par)
 
 name = par.parent.wavFile;

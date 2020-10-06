@@ -3,7 +3,8 @@
 % Compute matrix that maps channels to FFT bins for a given mapping from
 % FFT bins to channels:  invert matrix and normalise rows.
 %
-% P.Hehrmann, Jul 2012
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
+
 function mapCh2Fft = inverseFilterbankWeights(mapFft2Ch)
     mapCh2Fft = mapFft2Ch'; % transpose
     

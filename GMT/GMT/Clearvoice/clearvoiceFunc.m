@@ -31,16 +31,9 @@
 %   slopeFact  - factor determining the steepness of the gain curve [> 0]
 %   noiseEstDecimation - down-sampling factor (re. frame rate) for noise estimate [int > 0]
 %   enableContinuous - save final state for next execution? [boolean]
+%
+% Copyright (c) 2012 - 2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-%   30 Jan 2012, P.Hehrmann - created
-%   18 Jun 2013, S.Fredelake - added additional outputs V_nOut, V_sOut
-%   18 Jun 2013, PH - bug fix: reset of hold counter
-%   23 Jan 2018, PH - log-domain averaging (as on real device)
-%   24 Jan 2018, PH - enableContinuous flag
-%   02 Aug 2019, PH - added noiseEstDecimation and gainDomain parameter 
-%                   - changed function interface
-%   15 Aug 2019, PH - swapped output arguments (G and A)
 function [G_out, A_out, Vn_out, Vs_out, Hold_out] = clearvoiceFunc(par, A)
     
     % basic input check
@@ -84,7 +77,11 @@ function [G_out, A_out, Vn_out, Vs_out, Hold_out] = clearvoiceFunc(par, A)
     HoldReady = true(nCh, 1);
     HoldCount = zeros(nCh, 1) + maxHold;        
     if ~isempty(initState) % overwrite initial state variables, if supplied
-        par.retrieveVarFromStruct(initState); 
+        if isfield(initState, 'V_s'), V_s = initState.V_s; end
+        if isfield(initState, 'V_n'), V_n = initState.V_n; end
+        if isfield(initState, 'Hold'), Hold = initState.Hold; end
+        if isfield(initState, 'HoldReady'), HoldReady = initState.HoldReady; end
+        if isfield(initState, 'HoldCount'), HoldCount = initState.HoldCount; end
     end
     
     for iFrame = 1:nFrame

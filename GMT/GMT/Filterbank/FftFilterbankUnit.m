@@ -14,21 +14,8 @@
 %   #1  - FFT coefficient matrix, (NFFT/2) x nFrames (default) or (NFFT/2+1) x nFrames, depending on includeNyquistBin
 %
 % See also: fftFilterBankFunc.m
-
-% Change log:
-% 2012, MM - created
-% 24/11/2014, PH - added documentation, changed constructor syntax, 
-%                  removed unused sharedProps, reduced to 1 input and
-%                  output port
-% 19/12/2014, PH - 'run' adjusted to new ProcUnit interface (getInput, setOutput)
-% 01/08/2015, PH - renamed FFTFilterBankUnit -> FftFilterbankUnit,
-%                  removed nInput/nOutput constructor args
-% 29/05/2015, PH - adapted to May 2015 framework: shared props removed
-% 25/04/2017, PH - added "combineDcNy" option
-% 21/Jun/2017, PH - private set access to combineDcNy
-% 21 Aug 2017, PH - add compensateFftLength property
-% 01 Jun 2018, PH - add includeNyquistBin property
-% 15 Aug 2019, PH - swapped fftFilterbankFunc arguments
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 classdef FftFilterbankUnit < ProcUnit
     
     properties (SetAccess = private)

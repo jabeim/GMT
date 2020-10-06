@@ -10,13 +10,8 @@
 % TdFilterUnit Methods:
 %   TdFilterUnit - create new object (parent, ID, cN, cD) 
 %
-% Change log:
-% 16/04/2012 P. Hehrmann
-% 08/01/2015, PH - renamed TdFilterUnit
-% 08/01/2015, PH - use getInput/setOutput instead of getData/setData
-% 22/Jun/2017, PH - SetObservable properties
-% 08/Nov/2017, PH - multi-channel support
-% 14 Aug 2019, PH - swapped tdFilterFunc arguments
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
+
 classdef TdFilterUnit < ProcUnit
     properties (SetObservable)
         coeffNum = 1; % numerator coefficients of z-transformed transfer function

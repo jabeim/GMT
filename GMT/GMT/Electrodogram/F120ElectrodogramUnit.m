@@ -25,10 +25,8 @@
 %        (nFtFrames == nScopeFrames if outputFs = [])
 %
 % See also: f120ElectrodogramFunc, F120MappingUnit
+% Copyright (c) 2019-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 16 Aug 2019, PH - created
-% 08 Oct 2019, PH - added color scheme option
 classdef F120ElectrodogramUnit < ProcUnit
     properties(SetObservable)
         outputFs = []; % output sampling frequency; [] for native FT rate  [Hz] [[]]

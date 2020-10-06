@@ -20,15 +20,8 @@
 %   #1 - generated waveform (1 x nSamp) 
 %
 % See also: rampAudioFunc
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% ??, MM - created
-% 08/01/2015, PH - use getInput/setOutput instead of getData/setData,
-%                  remove nInput/nOutput constructor args
-% 28/07/2015, PH - renamed GenerateSinusUnit -> GenerateSineUnit,
-%                  added ramp duration and type,  documentation
-% 17/08/2015, PH - use rampAudioFunc for ramping
-% 22/Jun/2017, PH - SetObservable properties
-% 13 Jul 2017, PH - added 'zero' ramp option
 classdef GenerateSineUnit < ProcUnit
    properties (SetObservable)
       freq = 1000; % frequency [Hz] {1000}

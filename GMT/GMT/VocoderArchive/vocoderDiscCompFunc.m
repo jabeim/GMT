@@ -37,12 +37,8 @@
 %    randGen - RandStream object (to be used as random generator if applicable)
 %
 % SEE ALSO: computeSynthesisFilters.m, RandStream
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 14/10/2013 - feature: envelope discretization (equidistant steps in log-domain)
-% 02/12/2014, PH - removed 'scale' input
-% 10/05/2015, PH - adapted to May 2015 framework: removed shared props
-% 09/03/2018, PH - enableContinuous option; new phase mode 'alpha' 
 function vocFft = vocoderDiscCompFunc(env, par)
     strat = par.parent;    
     fs = strat.fs;

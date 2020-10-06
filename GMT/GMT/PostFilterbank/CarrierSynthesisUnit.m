@@ -8,25 +8,17 @@
 % Output Ports:
 %   1 - nChan x nFtFrame matrix of stimulation carriers
 %   2 - 1 x nFtFrame array of times corresponding to the FT frames [s]
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 2012, MM - created
-% 09/01/2015, PH - use getInput /setOutput instead getData/setData,
-%                  removed nInput/nOutput constuctor args
-% 29/05/2015, PH - adapted to May 2015 framework: shared props removed
-% 18 Jul 2019, PH - added parameters maxModDepth, fModOn, fModOff,
-%                   changed function interface (swap input order);
-%                   removed dependent property stimRate
-%                   added comments
-% 26 Jul 2019, PH - added parameter deltaPhaseMax 
 classdef CarrierSynthesisUnit < ProcUnit
     
     properties(SetAccess=private)
         fModOn;   % peak frequency up to which max. modulation depth is applied [fraction of FT rate] [0.5]
         fModOff;  % peak frequency beyond which no modulation is applied  [fraction of FT rate] [1.0]
         maxModDepth; % maximum modulation depth [0.0 .. 1.0] [1.0]
-        deltaPhaseMax; % maximum phase rotation per FT frame [turns] [1.0] (Harmony: 1.0, Coguaro: 0.5)
-                       % Set to (<)= 0.5 to avoid aliasing for fPeak > FT_rate/2
+        deltaPhaseMax = 0.5; % Maximum phase rotation per FT frame [turns] [0.5] 
+                             % Set <= 0.5 to avoid aliasing for fPeak > FT_rate/2
     end
     
     methods

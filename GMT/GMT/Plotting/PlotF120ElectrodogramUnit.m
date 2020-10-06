@@ -20,14 +20,8 @@
 % Output ports: none
 % 
 % See also: plotF120ElectrodogramFunc
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 2012, MM - created
-% 09/01/2015, PH - use getInput /setOutput instead getData/setData,
-%                  removed nInput/nOutput constuctor args
-% 29/05/2015, PH - adapted to May 2015 framework: shared props removed
-% 26 Jun 2017, PH - SetObservable properties
-% 26 Jul 2019, PH - added enable property, update func call in run (swapped arguments)
 classdef PlotF120ElectrodogramUnit < ProcUnit
     properties (SetObservable)
         pairOffset = [1 5 9 13 2 6 10 14 3 7 11 15 4 8 12]-1;  % default F120 staggering order       

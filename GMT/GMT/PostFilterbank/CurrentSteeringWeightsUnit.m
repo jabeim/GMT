@@ -25,16 +25,9 @@
 %   #1 - (2*nChan) x nFrames matrix of current steering weights; weights 
 %        for the lower and higher electrode of channel i are contained in
 %        rows i and (i+nChan), resp.
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 2012, MM - created
-% 09/01/2015, PH - use getInput /setOutput instead getData/setData,
-%                  removed nInput/nOutput constuctor args
-% 29/05/2015, PH - adapted to May 2015 framework: shared props removed
-% 10/19/2015, PH - added: flexible discretization and steering ranges
-% 26 Jun 2017, PH - SetObservable properties
-% 25 Jul 2019, PH - changed default nDiscreteSteps to 9 (matching product FW)                   
-% 14 Aug 2019, PH - swapped currentSteeringWeightsFunc arguments
 classdef CurrentSteeringWeightsUnit < ProcUnit
     properties (SetObservable)
         nDiscreteSteps = 9;   % nr. of discretization steps  [int >= 0] [9]; 0 -> no discretization

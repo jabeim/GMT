@@ -22,14 +22,9 @@
 %   weights - (2*nChan) x nFrames matrix of current steering weights; 
 %      weights for the lower and higher electrode of channel i are 
 %      contained in rows i and (i+nChan), resp.
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 2012, MM - created
-% 29/05/2015, PH - adapted to May 2015 framework: shared props removed
-% 19/10/2015, PH - added: flexible discritization and steering ranges;
-%                  added documentation
-% 29/07/2019, PH - fixed bug (weight discretization), added doc
-% 14 Aug 2019, PH - swapped arguments
 function weights = currentSteeringWeightsFunc(par, loc)
 
 nChan = par.parent.nChan;

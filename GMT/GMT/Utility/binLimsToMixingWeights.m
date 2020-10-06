@@ -10,10 +10,7 @@
 % OUTPUT:
 %    map  - nCh x nFreq mixing matrix (1 or 0 each)
 %
-% Change log:
-% 25/07/2012, P.Hehrmann - created
-% 16/01/2018, SD         - added optional argument "nFreq"
-
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 function map = binLimsToMixingWeights(startBin, nBins, nFreq)
 
 nCh = length(nBins);

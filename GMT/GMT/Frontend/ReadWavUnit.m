@@ -15,22 +15,8 @@
 %
 % ReadWavUnit Methods:
 %   ReadWavUnit - constructor
-
-% Change log:
-%  Apr 2012, M.Milczynski - created
-%  12 Dec 2012, P.Hehrmann - defaults for nInput, nOutput
-%  14 Jan 2012, PH - wav file can now be specified either by an input
-%                 DataUnit (previous behavior), or by propterty 'wavFile' 
-%                 (new behavior); might deprecate old behavior for
-%                 release version
-%  19 Dec 2014, PH - 'run' adjusted to new ProcUnit interface (getInput, setOutput)
-%  09/01/2015, PH - remove nInput/nOutput constructor args; 
-%                   removed option to specify wav file name as input data 
-%  18/01/2015, PH - add property tStartEnd
-%  29/05/2015, PH - adapted to May 2015 framework: shared props removed
-%  29/02/2016, PH - added iChannel
-%  23 Jun 2017, PH - SetObservable properties
-%  28 Jun 2017, PH - AbortSet properties
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 classdef ReadWavUnit < ProcUnit
     
     properties (SetObservable, AbortSet)

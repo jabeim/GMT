@@ -26,16 +26,8 @@
 %   run - execute processing
 %
 % See also: vocoderFunc.m
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 25/07/2012, P.Hehrmann - created  
-% 28/08/2012, P.Hehrmann - added documentation
-% 12/09/2012, P.Hehrmann - updated documentation (see change in vocoderFunc.m)
-% 10/12/2012, PH - bug fix: default option for nInputs
-% 02/12/2014, PH - removed optional 'scale' input (#2)
-% 09/01/2015, PH - use getInput /setOutput instead getData/setData
-% 01/06/2015, PH - adapted to May 2015 framework: removed shared props
-% 27 Jun 2016, PH - SetObservable properties 
 classdef VocoderUnit < ProcUnit
     
     properties (SetObservable)

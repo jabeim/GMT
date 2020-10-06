@@ -7,8 +7,7 @@
 %  frequency resolution of this rounding is df = FS/NFFT. The passband 
 %  magnitude is 1, the stopband amplitude is 0.
 %
-% Change log:
-% 12/12/12, P.Hehrmann - created
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 function M = computeAnalysisFilters(FS, NFFT, fLow, fHigh)
 
     if nargin < 4

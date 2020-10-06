@@ -41,15 +41,8 @@
 %   run - execute processing
 %
 % See also: vocoderDiscCompFunc.m, VocoderUnit, RandStream
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 14/10/2013 - feature: envelope discretization (equidistant steps in log-domain)
-% 02/12/2014, PH - removed optional 'scale' input (#2)
-% 09/01/2015, PH - use getInput /setOutput instead getData/setData
-% 10/05/2015, PH - adapted to May 2015 framework: removed shared props
-% 27 Jun 2017, PH - SetObservable properties
-% 01 Mar 2018, PH - add enableContinuous  
-% 09 Mar 2018, PH - new phase mode 'alpha'
 classdef VocoderDiscCompUnit < VocoderUnit
     
     properties (SetObservable)

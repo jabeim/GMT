@@ -1,3 +1,4 @@
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 function factor = computeSynScaling(nFft, nHop, anaWin, synWin, nFramesForEst)
 
 winAnaSyn = synWin(:) .* anaWin(:);

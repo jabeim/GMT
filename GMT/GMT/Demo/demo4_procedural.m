@@ -49,8 +49,8 @@ par_agc = struct(...
     'maxHold', 1305, ...    % max. hold counter value [int >= 0] [1305]
     'g0', 6.908, ...        % gain for levels < kneepoint [log2] [6.908; approx = 41.6dB]
     'fastThreshRel', 8, ... % relative threshold for fast loop [dB] [8]
-    'cSlowInit', 0, ...     % initial value for slow averager, 0..1, [] for auto; default: 1 
-    'cFastInit', 0, ...     % initial value for fast averager, 0..1, [] for auto; default: 1 
+    'cSlowInit', 0.5e-3, ...   % initial value for slow averager, 0..1, [] for auto; default: 1 
+    'cFastInit', 0.5e-3, ...   % initial value for fast averager, 0..1, [] for auto; default: 1 
     'controlMode', 'naida', ... % how to use control signal, if provided on port #2? ['naida' / 'direct'] ['naida']
     'clipMode', 'limit', ... % output clipping behavio ['none' / 'limit' / 'overflow'] ['none']
     'decFact', 8, ...       % decimation factor (i.e. frame advance)
@@ -90,10 +90,10 @@ par_energy = struct( ...
     'gainDomain', 'linear' ...  % domain of gain input (#2)  ['linear','db','log2']
     );
 
-% cv = ClearvoiceUnit(strat, 'CV', 1, 'log2', false);     % ClearVoice noise reduction; 'log2' makes gain output commesurable with Hilbert envelopes
+% cv = ClearvoiceUnit(strat, 'CV', 1, 'log2', false);     % ClearVoice noise reduction; 'log2' makes gain output commensurable with Hilbert envelopes
 par_cv = struct( ...
     'parent', par_strat,  ...
-    'gainDomain', 'log2', ... % domain of gain output on port 2 (if applicable) ['linear','db','log2'] ['linear']
+    'gainDomain', 'log2', ...   % domain of gain output on port 2 (if applicable) ['linear','db','log2'] ['linear']
     'tau_speech', 0.0258, ...   % time constant of speech estimator [s] [0.0258]
     'tau_noise', 0.219, ...     % time constant of noise estimator [s] [0.219]
     'threshHold', 3, ...        % hold threshold (onset detection criterion) [dB, > 0] [3]
@@ -105,7 +105,7 @@ par_cv = struct( ...
     'slopeFact', 0.2, ...       % factor determining the steepness of the gain curve [> 0] [0.2]
     'noiseEstDecimation', 1, ...    % down-sampling factor (re. frame rate) for noise estimate [int > 0] [1]  (firmware: 3)
     'enableContinuous', false, ...  % save/restore states across repeated calls of run [bool] [false]
-    'initState', []  ...         % initial state
+    'initState', struct('V_s', -30 * ones(15,1), 'V_n', -30 * ones(15,1)) ...    % initial state
     );
 
 % gapp = ElementwiseUnit(strat, 'GAPP', 2, @plus, true);  % CV gain application: element-by-element sum of 2 input;
@@ -138,14 +138,14 @@ par_carrierSynth = struct( ...
     'fModOn', 0.5,  ... % peak frequency up to which max. modulation depth is applied [fraction of FT rate] [0.5]
     'fModOff', 1.0, ... % peak frequency beyond which no modulation is applied  [fraction of FT rate] [1.0]
     'maxModDepth', 1.0, ... % maximum modulation depth [0.0 .. 1.0] [1.0]
-    'deltaPhaseMax', 1.0 ...% maximum phase rotation per FT frame [turns] [1.0] (Harmony: 1.0, Coguaro: 0.5)
-    );                      % Set to (<)= 0.5 to avoid aliasing for fPeak > FT_rate/2    
+    'deltaPhaseMax', 0.5 ...% maximum phase rotation per FT frame [turns] [0.5] 
+    );                      % Set <= 0.5 to avoid aliasing for fPeak > FT_rate/2    
 
 % map = F120MappingUnit(strat, 'MAP');                    % combine envelopes and carriers, and map to stimulation current amplitude 
 par_mapper = struct( ...
     'parent', par_strat, ...
     'mapM', 500 * ones(1,16), ...       % M levels [uAmp] 
-    'mapT', 100 * ones(1,16), ...       % T levels [uAmp] 
+    'mapT', 50  * ones(1,16), ...       % T levels [uAmp] 
     'mapIdr', 60 * ones(1,16), ...      % IDRs  [dB]
     'mapGain', 0 * ones(1,16), ...      % channel gains [dB]
     'mapClip', 2048 * ones(1,16), ...   % clipping level [uAmp] [2048]
@@ -153,8 +153,7 @@ par_mapper = struct( ...
     'carrierMode', 1 ...                % carrierMode - how to apply carrier [0 - no carrier, 1 - to input, 2 - to output] [1]
     );
 
-
-% plotter = PlotF120ElectrodogramUnit(strat, 'PLT');      % plot mapper output as electrodogram
+% egram = F120ElectrodogramUnit(strat, 'EGRAM', true);
 par_elgram = struct(...
     'parent', par_strat, ...
     'cathodicFirst', true, ...  %  start pulse with cathodic phase? [bool] 
@@ -217,13 +216,4 @@ saved = validateOutputFunc(par_validate,elgram);
 
 [audioOut,audioFs] = vocoderFunc(par_vocoder,elgram);
 
-sound(audioOut,audioFs)
-
-%% Display CV gains
-figure;
-G = sig_frm_gainCv * 3.01;  % * 3.01 converts log2 power to dB
-imagesc(G);
-colorbar;
-title('ClearVoice Gain [dB]');
-xlabel('Frame #');
-ylabel('Channel #');
+sound(audioOut,audioFs);

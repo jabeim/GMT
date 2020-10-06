@@ -49,42 +49,7 @@
 %   run - [abstract] read input, execute processing and store result in outputs
 %
 % See also: Strategy
-
-% Change log:
-% 17/09/2012, P.Hehrmann - notify parent strategy of the following graph changes: 
-%                          DataUnits being reset, set, or output being propagated
-% 06/12/2012, PH - added 'verbose' property (default = 0) to enable/disable
-%                  "non-critical" output to the console
-% 25/01/2013, PH - bug fix: resetDataUnits
-% 28/08/2013, PH - added "depth" property and "updateDepth" method
-% 27/10/2014, PH - bug fix: propagateOutput doesn't access output data
-%                           unless a connection exists
-% 19/12/2014, PH - changed: propagateOutput, updateDepth (changed connection mechanism)
-%                  removed method: connectToInput 
-%                  added methods: getInput, getOutput, getInputUnit, getOutputUnit, setOutput, setInput
-% 19/08/2015, PH - getInput/Output, setInput/Output: 'n' optional, default n=1 
-% 20/Jun/2017, PH - added "modified" property 
-%                 - added updateModified method which parent notification exclusively
-%                 - constructor creates "PostSet" change listeners for all SetObservable
-%                   propties in subclasses of ProcUnit (calling updateModified in turn)
-%                 - make ProcUnit subclass of handle (not dynamicprops)
-%                 - add listeners for changes to DataUnit.data (set modified=true)
-% 28 Jun 2017, PH - remove listeners for DataUnit.data, instead allow
-%                   access to DataUnit.data through ProcUnit exclusively
-%                   and handle updating of obj.modified explicitly in the respective
-%                   functions
-%                 - move creation of PostSet listeners from PU constructor
-%                   to Strategy.addProcUnit() 
-% 18 Jul 2017, PH - added protected MODIFIED_RESETVAL property, the value
-%                   to which "resetModified" sets the "modified" property
-%                   when called. Allows subclasses to enforce execution of
-%                   run by the strategy's run method by setting it to true
-%                 - removed obsolete updateParent() and getImpactedPropertyName() method
-%                 - added class documentation
-% 24 Oct 2017, PH - added getInputs() / getOutputs()
-% 18 Jan 2018, PH - added debugRequest field
-% 24 Jan 2018, PH - added initState field
-%                 - added methods saveVarToStruct, retrieveVarFromStruct
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 classdef ProcUnit < handle
     properties
        parent; % parent Strategy object (or sub-class thereof) 

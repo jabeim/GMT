@@ -16,11 +16,9 @@
 %   [#2] - FFT bin index with highest power per channel (nCh x nFrames)
 %
 % See also: channelEnergyFunc, SubsampProcUnit, ProcUnit, FftStrategy
+%
+% Copyright (c) 2015-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 21/10/2015, PH - created
-% 21/Jun/2017, PH - SetObservable properties
-% 05/Aug/2019, PH - re-purpose for simple energy estimation (cf. FftFilterbankEnvUnit)
 classdef ChannelEnergyUnit < SubsampProcUnit
     
     properties(SetObservable)

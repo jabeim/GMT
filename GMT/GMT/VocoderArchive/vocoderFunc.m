@@ -27,16 +27,8 @@
 %    normalization - 'none' / 'power'
 %
 % SEE ALSO: computeSynthesisFilters.m 
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 25/07/2012, P.Hehrmann - created  
-% 28/08/2012, P.Hehrmann - random starting phase even for coherent phases
-%                          (bug fix to avoid phase interferences at the beginning
-%                           of a new FFT frame in coherent phase mode)
-% 12/09/2012, P.Hehrmann - allow anaMixingWeights to be a scalar (specifying
-%                          #chan. for a default F120 filterbank w/o exteded low)
-% 02/12/2014, PH - removed 'scale' input
-% 01/06/2015, PH - adapted to May 2015 framework: removed shared props
 function vocFft = vocoderFunc(env, par)
     strat = par.parent;    
     fs = strat.fs;

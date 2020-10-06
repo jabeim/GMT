@@ -20,10 +20,8 @@
 %        OUT(k,l) = f(IN_1(k,l), ..., IN_N(k,l))
 %
 % See also: arrayfun
+% Copyright (c) 2017-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 20/Apr/2017, PH - created
-% 21/Jun/2017, PH - private set access to properties
 classdef ElementwiseUnit < ProcUnit
     properties (SetAccess = private)
         funcHandle; % handle of the function to be applied to the input elements

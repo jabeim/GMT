@@ -16,7 +16,7 @@ fftfb = FftFilterbankUnit(strat, 'FFT');                % FFT
 
 env = HilbertEnvelopeUnit(strat, 'HILB');               % Hilbert envelopes 
 engy = ChannelEnergyUnit(strat, 'ENGY', 2);             % channel energies (for ClearVoice SNR estimation); 2 inputs (to account for AGC gain)
-cv = ClearvoiceUnit(strat, 'CV', 1, 'log2', false);     % ClearVoice noise reduction; 'log2' makes gain output commesurable with Hilbert envelopes
+cv = ClearvoiceUnit(strat, 'CV', 1, 'log2', false);     % ClearVoice noise reduction; 'log2' makes gain output commensurable with Hilbert envelopes
 gapp = ElementwiseUnit(strat, 'GAPP', 2, @plus, true);  % CV gain application: element-by-element sum of 2 input;
                                                         % ('true' indicates that @add supports matrix inputs natively)
                                                         
@@ -30,14 +30,15 @@ egram = F120ElectrodogramUnit(strat, 'EGRAM', true);    % generate electrodogram
 
 
 %% set (non-default) block parameters
-agc.cFastInit = 0; 
-agc.cSlowInit = 0; % start AGC in fully "relaxed" state
+agc.cFastInit = 0.5e-3; 
+agc.cSlowInit = 0.5e-3; % start AGC in fully "relaxed" state
 agc.clipMode = 'limit';
 
-map.mapM = 500 * ones(1,16); % M = 500 uA
-map.mapT = 100 * ones(1,16); % T = 100 uA
+cv.initState = struct('V_s', -30 * ones(15,1), 'V_n', -30 * ones(15,1));
 
-plotter.xTickInterval = 250; % 250 ms steps 
+map.mapM = 500 * ones(1,16); % M = 500 uA
+map.mapT = 50  * ones(1,16); % T = 50 uA
+
 
 %% connect ProcUnits (using block labels)
 strat.connect(src, mix);
@@ -74,12 +75,3 @@ hFig = csViewer(strat, [], 0);
 
 %% run strategy
 strat.run();
-
-% Display CV gains
-figure;
-G = cv.getOutput(1) * 3.01;  % * 3.01 converts log2 power to dB
-imagesc(G);
-colorbar;
-title('ClearVoice Gain [dB]');
-xlabel('Frame #');
-ylabel('Channel #');

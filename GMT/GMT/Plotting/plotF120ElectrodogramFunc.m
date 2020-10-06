@@ -22,15 +22,9 @@
 %   xTickInterval - time interval between ticks (in specified units)
 %   pulseColor - color used for pulses in plot (Matlab ColorSpec)
 %   enable - do plotting or skip [bool]
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 2012, MM - created
-% 16/02/2015, PH - added time scaling; plot pulses as groups of stemseries
-%                  instead of line; removed non-standard formatting aids;
-%                  return handles for outside access to format options
-% 29/05/2015, PH - adapted to May 2015 framework: shared props removed
-% 13/10/2015, PH - use plot instead of stem for compat. w. recent Matlab
-% 27 Jul 2019, PH - swap input arguments for consistency, add enable property
 function handles = plotF120ElectrodogramFunc(par, amps)
 
 if ~par.enable

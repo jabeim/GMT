@@ -5,10 +5,7 @@
 %   saveDir - sub-folder of GMTROOT where new ProcUnit will be created
 %   withFunc - create corresponding function for ProcUnit? 0/1
 %
-
-% Change log:
-% 2012, MM - generated
-% 27 Jun 2017, PH - add placeholder "PROCFUNCNAME"
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 function generateProcUnitFromTemplate(procUnitName, saveDir, withFunc)
 
 if nargin ~= 3

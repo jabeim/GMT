@@ -1,13 +1,5 @@
 % DataUnit < handle
-
-% Change log:
-% 14/09/2012, P.Hehrmann - added function "dataIsEmpty"
-% 16/12/2014, PH - changed addConnection to handle port numbers and ID strings as
-%                  argument.
-% 21 Jun 2017, PH - enable overwriting data when current data is not empty 
-% 26 Jun 2017, PH - setData returns "mod" flag: true if content changed
-%                 - setData does not overwrite data if new and old content
-%                   are identical
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 classdef DataUnit < handle
     properties (SetAccess = private)
         parent;

@@ -15,11 +15,8 @@
 %    y - nFilters x nSamp filtered output signals
 %
 % See also: filter.m
-%
-% Change log:
-% 16/04/2012, P.Hehrmann - created
-% 08/Nov/2017, PH - multi-channel output support
-% 14 Aug 2019, PH - swapped arguments
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
+
 function Y = tdFilterFunc(par, x)
     
    nCh = size(par.coeffNum,1);

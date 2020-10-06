@@ -10,10 +10,8 @@
 % OUTPUT:
 %    mapFft2Ch - nCh x 128 mixing matrix (linear weights, 0 or 1)
 %
-% Change log:
-%  25/07/2012, P. Hehrmann - created
-%  19/03/2013, M. Milczynski - added iStart, iEnd as outputs for
-%                              binToLocMap calculation
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
+
 function [mapFft2Ch, iStart, iEnd] = computeF120FilterbankWeights(nCh, extendedLow)
     
     showInfo = 0;

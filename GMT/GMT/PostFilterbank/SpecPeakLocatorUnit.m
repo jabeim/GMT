@@ -18,15 +18,9 @@
 %  #2 - nChan x nFrames matrix of corresponding cochlear locations [within [0,15]]
 % 
 % See also: specPeakLocatorFunc.m, SubsampProcUnit.m, ProcUnit.m, FftStrategy.m
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 2012, MM - created
-% 09/01/2015, PH - use getInput /setOutput instead getData/setData,
-%                  removed nInput/nOutput constuctor args
-% 29/05/2015, PH - adapted to May 2015 framework: shared props removed
-% 30 Jul 2019, PH - add binToLocMap as configurable parameter
-%                 - make SpecPeakLocator sub-class of SubsampProcUnit
-%                 - add documentation
 classdef SpecPeakLocatorUnit < SubsampProcUnit
     properties (Constant)
         DEF_DSFACT = 3; % default down-sampling factor [int > 0] [3]

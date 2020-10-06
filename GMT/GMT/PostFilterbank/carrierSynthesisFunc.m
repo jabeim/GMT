@@ -8,18 +8,17 @@
 %   parent.nChan - number of analysis channels
 %   parent.fs - sample rate of signalIn [Hz]
 %   stimRate - channel stimulation rate in pps or Hz
+%   fModOn - peak frequency up to which max. modulation depth is applied [fraction of FT rate]
+%   fModOff - peak frequency beyond which no modulation is applied  [fraction of FT rate]
+%   maxModDepth - maximum modulation depth [0.0 .. 1.0]
+%   deltaPhaseMax - maximum phase rotation per FT frame [turns, 0.0 .. 1.0]
 %
 % OUTPUT:
 %   carrier  - nChan x nFrameFt square-wave carrier signals
 %   tFtFrame - start time of each FT frame, starting with 0 [s]
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 2012, MM - created
-% 29 May 2015, PH - adapted to May 2015 framework: shared props removed
-% 18 Jul 2019, PH - re-wrote CS code for improved readability ans speed, 
-%                   added parameters maxModDepth, fModOn, fModOff   
-%                   changed function interface (swap input order)
-% 26 Jul 2019, PH - added parameter deltaPhaseMax 
 function [carrier, tFtFrame] = carrierSynthesisFunc(par, fPeak)
 
 strat = par.parent;
@@ -39,7 +38,7 @@ idxAudFrame = floor(tFtFrame / durFrame) + 1; % index of latest audio frame avai
 fPeakPerFtFrame = fPeak(:,idxAudFrame);  % latest peak freq. estimate for each channel and FT frame 
 
 % compute phase accumulation (per channel and frame)
-deltaPhiNorm = min(fPeakPerFtFrame/rateFt, 0.5*2);   % phase deltas [in turns, i.e. rad/(2*Pi)]
+deltaPhiNorm = min(fPeakPerFtFrame/rateFt, par.deltaPhaseMax);  % phase deltas [in turns, i.e. rad/(2*Pi)]
 phiNorm = mod(cumsum(deltaPhiNorm, 2), 1);   % accumulated phase, modulo 1 [turns]
 
 % compute modulation depth  (per channel and frame)

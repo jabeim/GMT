@@ -17,14 +17,8 @@
 %    #1  - linear envelopes (nCh x nFrames)
 %
 % See also: fftFilterbankEnvFunc.m
-
-% Change log:
-% 25/07/2012, P.Hehrmann - created
-% 12/09/2012, PH - added documentation, matching changes to fftFilterBankFunc.m
-% 24/11/2014, PH - removed "scale" input
-% 19/12/2014, PH - 'run' adjusted to new ProcUnit interface (getInput, setOutput)
-% 01/06/2015, PH - adapted to May 2015 framework: removed shared props
-% 21/Jun/2017, PH - SetObservable properties
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 classdef FftFilterbankEnvUnit < ProcUnit
     properties (SetObservable)
         mapFft2Ch = []; % EITHER: a 2-el. vector, specifying (1) the number of channels for a F120 filterbank (3..15) and (2) extended low (0/1); OR: scalar, specifying the number of ch. for a F120 filterbank w/o ext. low, OR: an nCh x nFft mixing matrix (linear weights, >= 0) OR []  to use the strategy's startBin / nBinLims channel allocation 

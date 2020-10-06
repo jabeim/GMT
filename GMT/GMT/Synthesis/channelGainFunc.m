@@ -14,12 +14,9 @@
 %                           parent strategy's startBin nBinLims properties
 %    maintainUnassigned - maintain input FFT coefficients for frequency bins
 %                         not mapped to a channel? [boolean]
-% Change log:
-% 16/08/2012, P.Hehrmann - created  
-% 24/09/2012, PH - allow anaMixingWeights to be a scalar (specifying
-%                          #chan. for a default F120 filterbank w/o exteded low)
-% 02/12/2014, PH - removed 'scale' input (#3)
-% 11 Jul 2017, PH - updated documentation
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
+
 function Y_out = channelGainFunc(G, Y, par)
     
     strat = par.parent;

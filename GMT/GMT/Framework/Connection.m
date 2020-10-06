@@ -2,9 +2,8 @@
 % Represents a connection between a source (output) and a destination (input) 
 % DataUnit. Connection contains object handles and internal indices of both
 % DataUnits and their parent ProcUnits.
-
-% Change log:
-%   17/12/2014, PH - created
+%
+% Copyright (c) 2014-2020 Advanced Bionics. All rights reserved.
 classdef Connection < handle
     properties (SetAccess = private)
        srcUnit % source ProcUnit 

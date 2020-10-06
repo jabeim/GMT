@@ -13,19 +13,9 @@ function b = winBufFunc(par, signalIn)
 %
 % OUTPUT:
 %   buf - buffers, one signal-frame per column
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-%  04/2012, M.Milczynski - created
-%  27/04/2012, P.Hehrmann - removed call to circBuffer, replaced by buffer.m; 
-%                           set opts = [] for equivalent behaviour
-%  02/05/2012, PH - bug fix: scale is 0 ( =log2(1) ) for 'float'
-%                           precision
-%  24/09/2012, PH - set scale to 0 for maxima < 2^(-24) (re-enabled)
-%  06/08/2013, PH - re-enable shared prop "precision" option; reduced memory load
-%  25/11/2014, PH - remove scale output altogether
-%  29/05/2015, PH - adapted to May 2015 framework: shared props removed
-%  13/08/2018, J.Thiemann - Add multichannel support
-%  14 Aug 2019, PH - swapped function arguments
 strat = par.parent;
 
 [M, N] = size(signalIn);

@@ -23,13 +23,8 @@
 % Strategy events:
 %   GraphChanged - triggered when units or connections are added, data
 %                  assigned or reset
-
-% Change log:
-% 11/05/2015, P.Hehrmann - created 
-% 26 Jun 2017, PH - make Strategy subclass of handle (not dynamicprops)
-% 29 Jun 2017, PH - change resetDataGenerated method (delegate propagation
-%                   to ProcUnit.propagateOutput)
-% 02 Aug 2019, PH - added documentation
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 classdef Strategy < handle 
    
     properties

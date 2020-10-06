@@ -21,14 +21,9 @@
 % OUTPUT:
 %   freq : nChan x nFrames matrix of estimated peak frequencies [Hz]
 %   loc : nChan x nFrames matrix of corresponding cochlear locations [within [0,15]]
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 2012, MM - created
-% 29/05/2015, PH - adapted to May 2015 framework: shared props removed
-% 30/07/2019, PH - bug fix: fit parabola to log (not linear) spectral magnitudes
-%                - integrated functionality of specMaxLocator (obsoleting specMaxLocator)
-%                - add binToLocMap as configurable parameter
-%                - replaced 3 calls of fastIndexAlloc with 1 call of sub2ind (150x faster)
 function [freqInterp, loc] = specPeakLocatorFunc(par, stftIn)
 
 strat = par.parent;

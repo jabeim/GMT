@@ -13,10 +13,8 @@
 % Output ports:
 %   #1 - discretized audio vector (same length as input)
 %
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 17/08/2015, PH - created
-% 26 Jun 2017, PH - SetObservable properties
 classdef DiscretizeAudioUnitUnit < ProcUnit
     properties (SetObservable)
         q = 15;  % description of property1

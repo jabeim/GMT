@@ -20,12 +20,8 @@
 %
 % OUTPUT:
 %   Env - Filterbank envelopes, size nCh x nFrames
-
-% Change log:
-% 25/07/2012, P.Hehrmann - created
-% 12/09/2012, PH - allow mapFft2Ch to be a scalar (specifying
-%                  #chan. for a default F120 filterbank w/o exteded low)
-% 01/06/2015, PH - adapted to May 2015 framework: removed shared props
+%
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 function Env = fftFilterbankEnvFunc(X, par)
     
     strat = par.parent;

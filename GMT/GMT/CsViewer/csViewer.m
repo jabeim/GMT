@@ -15,14 +15,8 @@
 %   graph - internal graph representation of CS
 %
 % See also: initGmtClassPath.m
-%
-% Change log:
-% Jun 2012, P.Hehrmann - created
-% 08/12/2012, PH - bugfix: "listen" was being ignored for hFig ~= [];
-%                   added documentation; 
-% 19/12/2014, PH - adapted to new connection mechanism
-% 19/08/2015, PH - minor change: edge x-offsets to reduce colocated vert. edges
-% 21/Jun/2017, PH - different colors for modified and unmodified PUs
+% Copyright (c) 2012 - 2020 Advanced Bionics. All rights reserved.
+
 function [hFig, graph] = csViewer(CS, hFig, listen)
 
     persistent CS_listener;

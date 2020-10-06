@@ -41,20 +41,8 @@
 %    AudioMixerUnit - constructor
 %
 % See also: audioMixerFunc
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 29/08/2012, P.Hehrmann - created
-% 09/12/2012, PH - added 'delays' and 'primaryIn' and 'clip'; cf. audioMixerFunc.m
-% 08/01/2015, PH - use getInput/setOutput instead of getData/setData
-% 22/01/2015, RK - Scaled input components as output for visualization
-% 16/02/2015, PH - set sensIn default to 111.6dB SPL peak according to 
-%                  Harmony signal path spec (signal before pre-emphasis
-%                  is at digital FS for sine input of 108.59dB SPL RMS) 
-% 01/06/2015, PH - adapted to May 2015 framework: removed shared props
-% 23/Jun/2017, PH - SetObservable properties
-% 27/11/2017, PH - option to compute gain for one "master channel" and 
-%                  apply to all channels equally 
-% 17 Apr 2018, PH - added clipValue property 
 classdef AudioMixerUnit < ProcUnit
     
     properties (SetObservable)

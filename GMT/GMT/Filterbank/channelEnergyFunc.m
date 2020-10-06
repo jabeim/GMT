@@ -13,11 +13,9 @@
 %
 % OUTPUT:
 %   engy - Filterbank envelopes, size nCh x nFrames
+% 
+% Copyright (c) 2015-2020 Advanced Bionics. All rights reserved.
 
-% Change log:
-% 22/10/2015, PH - created
-% 04 Jul 2017, PH - output X squared for further processing, remove 
-%                   optional computation of spectral maxima per channel 
 function [engy] = channelEnergyFunc(par, X, gAgc)
     
     strat = par.parent;
@@ -34,7 +32,7 @@ function [engy] = channelEnergyFunc(par, X, gAgc)
     lenAgcIn = length(gAgc);
     if lenAgcIn > nFrames
         gAgc = gAgc(nHop:nHop:end);
-        assert(abs(length(gAgc)-nFrames) <= 2, ... % allow some slack around expected size of decimated AGC signal
+        assert(abs(length(gAgc)-nFrames) <= 3, ... % allow some slack around expected size of decimated AGC signal
                'Length of sample-based gAgc input incompatible with nr. frames in STFT matrix: length/nHop must equal nFrames approx.');
         gAgc(end+1:nFrames) = gAgc(end);  % pad / crop decimated gain to nFrames
         gAgc = gAgc(1:nFrames);        

@@ -42,15 +42,7 @@ function [wavOut GExpand State C CSlow CFast Hold Env G EnvFast] = dualLoopTdAgc
 %   Hold - hold counter vector
 %
 % See also: DualLoopTdAgcUnit
-
-% Change log:
-% 27/11/2012, P.Hehrmann - created
-% 14/01/2012, P.Hehrmann - renamed; 
-%                          fixed: temporal alignment wavIn <-> gains (consistent with fixed-point GMT implementation / C model)
-% 01/06/2015, PH - adapted to May 2015 framework: removed shared props
-% 28/09/2015, PH - added 'auto' option for initial conditions
-% 01/Dec/2017, PH - add "controlMode" property
-% 14 Aug 2019, PH - swapped function arguments
+% Copyright (c) 2012 - 2020 Advanced Bionics. All rights reserved.
 
 % check input dimensions
 assert(isvector(wavIn), 'wavIn must be a vector');
@@ -188,8 +180,15 @@ idxExpand = [ ceil( (1/decFact) : (1/decFact) : nFrame) nFrame];
 GExpand = G(idxExpand); % expand decimated gain vector
 GExpand = filter(ones(1,gainBufLen)/gainBufLen, 1, GExpand); % average over gain window
 GExpand = GExpand(2:nSamp+2-gainBufLen);
-wavOut = [zeros(1, envBufLen), wavIn(gainBufLen+1:nSamp-envBufLen+1)] .* GExpand; % apply gain
 
+wavpad  = wavIn(max(1,gainBufLen-envBufLen+1):gainBufLen);  % max. wavpad length: endBufLen
+zeropad = zeros(1, envBufLen-length(wavpad));               % length(wavpad) + length(zeropad) = envBufLen;
+wavOut = [zeropad, wavpad, wavIn(gainBufLen+1:nSamp-envBufLen+1)] .* GExpand; % apply gain
+
+nOutTooShort = length(wavIn) - length(wavOut);
+wavOut(end+1:length(wavIn)) = GExpand(end) * wavIn((nSamp-envBufLen+2):(nSamp-envBufLen+nOutTooShort+1));  % expand wavOut if too short
+wavOut = wavOut(1:length(wavIn)); % crop if too long
+     
 switch lower(par.clipMode)
     case 'none'
         % do nothing, i.e. allow values outside [-1, +1]

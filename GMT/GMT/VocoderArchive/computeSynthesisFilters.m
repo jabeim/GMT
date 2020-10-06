@@ -18,10 +18,7 @@ function g = computeSynthesisFilters(synthType,slope,nFFT,FS,anaFilters, normali
 % OUTPUT
 %   synFilters - nFFT x nCh mixing matrix;
 %
-% Change log:
-%    25/07/2012, P. Hehrmann - created (based on Leo's createReconFilters.m)
-%    28/08/2012, P. Hehrmann - changed type name: 'cfLin' -> 'linCf' 
-plot = 0;
+% Copyright (c) 2012-2020 Advanced Bionics. All rights reserved.plot = 0;
 
 assert(all(anaFilters(:) >= 0), 'Elements of anaFilters must not be negative.');
 

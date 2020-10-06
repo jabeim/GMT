@@ -13,10 +13,7 @@
 %   rampTypeOn  - onset ramp shape: 'lin'/'cos'/'cos2'/'zero' 
 %   rampTypeOff - onset ramp shape: 'lin'/'cos'/'cos2'/'zero' 
 %
-% Change log:
-% 17/08/2015, PH - created
-% 13 Jul 2017, PH - added 'zero' ramp option
-% 25 May 2018, PH - fix input/ramp dimension issues
+% Copyright (c) 2015-2020 Advanced Bionics. All rights reserved.
 
 function s = rampAudioFunc(par, s)
 
