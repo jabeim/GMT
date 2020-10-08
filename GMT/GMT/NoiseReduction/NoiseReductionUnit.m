@@ -1,9 +1,7 @@
-% ClearvoiceUnit < ProcUnit
+% NoiseReductionUnit < ProcUnit
 %
-% Compute channel-by-channel gains as in ClearVoice. This unit can be used 
-% with 1 to 4 outputs (see below). The gain function is  implemented 
-% following specification D000001063  (L.Litvak, 2009), with  added freedom
-% in choosing the shape parameters of the gain function.
+% Compute channel-by-channel noise reduction gains. This unit can be used 
+% with 1 to 4 outputs (see below). 
 %
 % Input ports:
 %   #1  - nCh x nFrames channel envelope matrix [sqrt(power), linearly scaled]
@@ -14,24 +12,24 @@
 %  [#3] - noise energy estimates (nCh x nFrames)
 %  [#4] - speech enegergy estimates (nCh x nFrames)
 %
-% ClearvoiceUnit Properties:
+% NoiseReductionUnit Properties:
 %  *gainDomain - domain of gain output on port 2 (if applicable) ['linear','db','log2'] ['linear']
 %  *tau_speech -  time constant of speech estimator [s] [0.0258]
 %  *tau_noise - time constant of noise estimator [s] [0.219]
 %  *threshHold - hold threshold (onset detection criterion) [dB, > 0] [3]
 %  *durHold - hold duration (following onset) [s] [1.6]
 %  *maxAtt - maximum attenuation (applied for SNRs <= snrFloor) [dB] [-12]
-%  *noiseEstDecimation - down-sampling factor (re. frame rate) for noise estimate [int > 0] [1]  (firmware: 3)
+%  *noiseEstDecimation - down-sampling factor (re. frame rate) for noise estimate [int > 0] [1]
 %  *snrFloor - SNR below which the attenuation is clipped [dB] [-2]
 %  *snrCeil  - SNR above which the gain is clipped  [dB] [45]
 %  *snrSlope - SNR at which gain curve is steepest  [dB] [6.5]
 %  *slopeFact  - factor determining the steepness of the gain curve [> 0] [2]
 %  enableContinuous - save/restore states across repeated calls of run [bool] [false]
 %
-% See also: clearvoiceFunc
+% See also: noiseReductionFunc
 % Copyright (c) 2012 - 2020 Advanced Bionics. All rights reserved.
 
-classdef ClearvoiceUnit < ProcUnit
+classdef NoiseReductionUnit < ProcUnit
     properties (SetObservable)
        gainDomain = 'linear'; % domain of gain output on port 2 (if applicable) ['linear','db','log2'] ['linear']
        tau_speech = 0.0258 % time constant of speech estimator [s] [0.0258]
@@ -51,8 +49,8 @@ classdef ClearvoiceUnit < ProcUnit
     end
     
     methods
-        function obj = ClearvoiceUnit(parent, ID, nOutput, gainDomain, enableContinuous)
-            % obj = ClearvoiceUnit(parent, ID, nOutput, gainDomain, enableContinuous)
+        function obj = NoiseReductionUnit(parent, ID, nOutput, gainDomain, enableContinuous)
+            % obj = NoiseReductionUnit(parent, ID, nOutput, gainDomain, enableContinuous)
             % Create new object with speficied parent and ID string.
             % Input:
             %    parent - parent FftStrategy object
@@ -78,7 +76,7 @@ classdef ClearvoiceUnit < ProcUnit
         function [gain, engy_out, V_nOut, V_sOut] = run(obj)
             engy = obj.getInput(1); % input envelopes
             
-            [gain, engy_out, V_nOut, V_sOut] = clearvoiceFunc(obj, engy);
+            [gain, engy_out, V_nOut, V_sOut] = noiseReductionFunc(obj, engy);
             
             obj.setOutput(1, gain);  % gain 
             if obj.outputCount >=2   

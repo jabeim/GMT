@@ -1,5 +1,5 @@
 % This demo implements the exact same processing strategy as
-% demo3_F120_ClearVoice.m in a purely procedural style, i.e. avoiding
+% demo3_SpecRes_NR.m in a purely procedural style, i.e. avoiding
 % use of the object-oriented framework built around the core functionality
 % of each processing block. Corresponding lines from the object
 % oriented demo are quoted in comments.
@@ -15,7 +15,7 @@ par_strat = struct( ...
     'window', 0.5*(blackman(256) + hanning(256)), ...
     'pulseWidth', 18, ...
     'verbose', 0, ...
-    'wavFile', ['Sounds' filesep 'AzBio_3sent.wav']...
+    'wavFile', ['Sounds' filesep 'AzBio_3sent_65dBSPL.wav']...
     );
 
 %% Setting up parameter structures for each subsequent function call
@@ -27,8 +27,8 @@ par_readWav = struct( ...
     'iChannel', 1 ...
     );
 
-% mix = AudioMixerUnit(strat, 'MIX', 1, [65], 'rms', 111.6, [], 1);   % 2 inputs, 65dB and 55dB dB SPL RMS, assuming full-scale level 111.6 dB SPL, input 1 determines output length
-% (.. omitted for the simple case of 1 mixer input, scaling handled in the "function call section" below  ..)
+% mix = AudioMixerUnit(strat, 'MIX', 1, 0, 'rel');   % 1 input, no re-scaling, assuming correct scaling in input wav file (parameters: 0 dB rel. to input)
+% (.. single input, transparent gain -> omitted ..)
 
 % pre = HarmonyPreemphasisUnit(strat, 'PRE');             % pre-emphasis filter
 par_pre = struct(... 
@@ -84,14 +84,14 @@ par_hilbert = struct( ...
     'outputUpperBound', Inf ... % lower bound applied to output (after offset) [log2] [Inf]
     );
 
-% engy = ChannelEnergyUnit(strat, 'ENGY', 2);             % channel energies (for ClearVoice SNR estimation); 2 inputs (to account for AGC gain)
+% engy = ChannelEnergyUnit(strat, 'ENGY', 2);             % channel energies (for noise reduction SNR estimation); 2 inputs (to account for AGC gain)
 par_energy = struct( ...
     'parent', par_strat, ...
     'gainDomain', 'linear' ...  % domain of gain input (#2)  ['linear','db','log2']
     );
 
-% cv = ClearvoiceUnit(strat, 'CV', 1, 'log2', false);     % ClearVoice noise reduction; 'log2' makes gain output commensurable with Hilbert envelopes
-par_cv = struct( ...
+% nr = NoiseReductionUnit(strat, 'NR', 1, 'log2', false);     % noise reduction; 'log2' makes gain output commensurable with Hilbert envelopes
+par_nr = struct( ...
     'parent', par_strat,  ...
     'gainDomain', 'log2', ...   % domain of gain output on port 2 (if applicable) ['linear','db','log2'] ['linear']
     'tau_speech', 0.0258, ...   % time constant of speech estimator [s] [0.0258]
@@ -103,14 +103,13 @@ par_cv = struct( ...
     'snrCeil', 45, ...          % SNR above which the gain is clipped  [dB] [45]
     'snrSlope', 6.5, ...        % SNR at which gain curve is steepest  [dB] [6.5]
     'slopeFact', 0.2, ...       % factor determining the steepness of the gain curve [> 0] [0.2]
-    'noiseEstDecimation', 1, ...    % down-sampling factor (re. frame rate) for noise estimate [int > 0] [1]  (firmware: 3)
+    'noiseEstDecimation', 1, ...    % down-sampling factor (re. frame rate) for noise estimate [int > 0] [1]
     'enableContinuous', false, ...  % save/restore states across repeated calls of run [bool] [false]
     'initState', struct('V_s', -30 * ones(15,1), 'V_n', -30 * ones(15,1)) ...    % initial state
     );
 
-% gapp = ElementwiseUnit(strat, 'GAPP', 2, @plus, true);  % CV gain application: element-by-element sum of 2 input;
+% gapp = ElementwiseUnit(strat, 'GAPP', 2, @plus, true);  % NR gain application: element-by-element sum of 2 input;
 %  (no corresponding parameter struct, addition handled in the function call section below)
-
 
 % spl = SpecPeakLocatorUnit(strat, 'SPL');                % channel peak frequency and target location estimation
 par_peak = struct( ...
@@ -182,18 +181,17 @@ par_vocoder = struct(...
 %% Function calls
 % ( strat.connect(block_1, block_2), ..., strat.run() ) 
 
-sig_smp_wavIn                           = readWavFunc(par_readWav); % read wav input
-sig_smp_wavScaled = sig_smp_wavIn / sqrt(mean(sig_smp_wavIn.^2)) * 10^((65 - 111.6) / 20);   % 65 dB SPL RMS  (assuming 111.6 dB full-scale)
+sig_smp_wavIn                           = readWavFunc(par_readWav); % read wav input; assumes correct scaling of 111.6 dB SPL peak full-scale in wav input
 
-sig_smp_wavPre                          = tdFilterFunc(par_pre, sig_smp_wavScaled); % pre-emphasis
+sig_smp_wavPre                          = tdFilterFunc(par_pre, sig_smp_wavIn); % pre-emphasis
 [sig_smp_wavAgc, sig_smp_gainAgc]       = dualLoopTdAgcFunc(par_agc, sig_smp_wavPre); % AGC
 sig_frm_audBuffers                      = winBufFunc(par_winBuf, sig_smp_wavAgc); % buffering 
 sig_frm_fft                             = fftFilterbankFunc(par_fft, sig_frm_audBuffers); % STFT
 
 sig_frm_hilbert                         = hilbertEnvelopeFunc(par_hilbert, sig_frm_fft); % Hilbert envelopes
 sig_frm_energy                          = channelEnergyFunc(par_energy, sig_frm_fft, sig_smp_gainAgc); % channel energy estimates
-sig_frm_gainCv                          = clearvoiceFunc(par_cv, sig_frm_energy); % Clearvoice noise reduction
-sig_frm_hilbertMod                      = sig_frm_hilbert + sig_frm_gainCv; % apply noise reduction gains to envelopes
+sig_frm_gainNr                          = noiseReductionFunc(par_nr, sig_frm_energy); % noise reduction
+sig_frm_hilbertMod                      = sig_frm_hilbert + sig_frm_gainNr; % apply noise reduction gains to envelopes
 
 %   sub-sample every third FFT input frame
 sig_3frm_fft = sig_frm_fft(:,3:3:end);    

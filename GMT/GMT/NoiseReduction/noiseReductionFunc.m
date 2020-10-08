@@ -1,16 +1,13 @@
-% [G_out, A_out, Vn, Vs, Hold] = clearvoiceFunc(par, A)
+% [G_out, A_out, Vn, Vs, Hold] = noiseReductionFunc(par, A)
 %
-% Compute channel-by-channel gains as in ClearVoice. The gain function is 
-% implemented following specification D000001063 (L.Litvak, 2009), with 
-% added freedom in choosing the shape parameters. Note that AGC gain input
-% is expected at audio sample rate (firmware uses decimated gain).
+% Compute channel-by-channel noise reduction gains. 
 %
 % INPUT:
 %   par - parameter object / struct
 %   A - nCh x nFrames matrix of channel amplitudes (sqrt(power), linearly scaled)
 %
 % OUTPUT:
-%   G_out - nCh x nFrames matrix of ClearVoice gains (domain determined by par.gainDomain)
+%   G_out - nCh x nFrames matrix of NR gains (domain determined by par.gainDomain)
 %   A_out - nCh x nFrames matrix of channel amplitudes (sqrt(power), linearly scaled)
 %   Vn   - nCh x nFrames matrix of noise estimates
 %   Vs   - nCh x nFrames matrix of speech estimates
@@ -34,7 +31,7 @@
 %
 % Copyright (c) 2012 - 2020 Advanced Bionics. All rights reserved.
 
-function [G_out, A_out, Vn_out, Vs_out, Hold_out] = clearvoiceFunc(par, A)
+function [G_out, A_out, Vn_out, Vs_out, Hold_out] = noiseReductionFunc(par, A)
     
     % basic input check
     checkParamFields(par,{'tau_speech', 'tau_noise', 'durHold', 'threshHold',...
@@ -58,7 +55,7 @@ function [G_out, A_out, Vn_out, Vs_out, Hold_out] = clearvoiceFunc(par, A)
     gMin = 1 + (maxAttLin - 1) / (1 - 1/(1+exp(-par.slopeFact * (par.snrFloor - par.snrSlope))));
    
     % define gain function given parameters in par
-    function g__ = cvGainFunc(SNR) % CV gain function according to spec
+    function g__ = nrGainFunc(SNR) % logistic NR gain function 
         SNR = min( max(SNR, par.snrFloor), par.snrCeil);
         g__ = gMin + (1-gMin)./(1+exp(-par.slopeFact*(SNR-par.snrSlope)));
     end
@@ -97,7 +94,6 @@ function [G_out, A_out, Vn_out, Vs_out, Hold_out] = clearvoiceFunc(par, A)
             
             maskUpdateNoise = maskSteady | (~maskSteady & ~HoldReady & ~Hold);
             
-            
             V_n(maskUpdateNoise) =       alpha_n*V_n(maskUpdateNoise) ...
                 + (1-alpha_n)*V_s(maskUpdateNoise);
             
@@ -115,7 +111,7 @@ function [G_out, A_out, Vn_out, Vs_out, Hold_out] = clearvoiceFunc(par, A)
    
         % compute gains
         SNR = V_s - V_n;
-        G(:,iFrame) = cvGainFunc(SNR);
+        G(:,iFrame) = nrGainFunc(SNR);
         Vn_out(:,iFrame) = V_n;
         Vs_out(:,iFrame) = V_s;
         Hold_out(:, iFrame) = Hold;

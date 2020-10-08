@@ -21,7 +21,7 @@ nBinLims = strat.nBinLims;
 upperBound = par.outputUpperBound;
 lowerBound = par.outputLowerBound;
 
-% required benv envelope-extrator (see Nogueira, 2009 and internal F120-doc for details)
+% required env envelope-extrator (see Nogueira, 2009)
 X(1:2:end,:) = -X(1:2:end,:); % sign-flip every other FFT bin
 L = size(X, 2);
 env = zeros(nChan, L);

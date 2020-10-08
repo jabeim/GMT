@@ -8,7 +8,7 @@
 %
 % Properties:
 %   binToLocMap - 1 x nBin matrix of nominal cochlear locations for the center
-%                 frequencies of each STFT bin [ascending within [0,15]] [F120 firmware setting]
+%                 frequencies of each STFT bin [ascending within [0,15]] 
 %
 % Input Ports:
 %  #1 - nBin x nFrames matrix of STFT coefficients 
@@ -28,7 +28,7 @@ classdef SpecPeakLocatorUnit < SubsampProcUnit
     
     properties(SetObservable)
         binToLocMap = [zeros(1,6), 256, 640, 896, 1280, 1664, 1920, 2176, ...   % 1 x nBin vector of nominal cochlear locations for the center frequencies of each STFT bin
-              2432, 2688, 2944, 3157, 3328, 3499, 3648, 3776, 3904, 4032, ...   % as in firmware; values from 0 .. 15 (originally in Q9 format)
+              2432, 2688, 2944, 3157, 3328, 3499, 3648, 3776, 3904, 4032, ...   % values from 0 .. 15 in Q9 format
               4160, 4288, 4416, 4544, 4659, 4762, 4864, 4966, 5069, 5163, ...   % corresponding to the nominal steering location for each 
               5248, 5333, 5419, 5504, 5589, 5669, 5742, 5815, 5888, 5961, ...   % FFT bin
               6034, 6107, 6176, 6240, 6304, 6368, 6432, 6496, 6560, 6624, ...

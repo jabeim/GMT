@@ -18,7 +18,7 @@ addpath([GMTROOT, filesep, 'Utility'])
 
 % Adding enough of the path to run the demos
 addpath([GMTROOT, filesep, 'Agc']);
-addpath([GMTROOT, filesep, 'Clearvoice']);
+addpath([GMTROOT, filesep, 'NoiseReduction']);
 addpath([GMTROOT, filesep, 'CsViewer']);
 addpath([GMTROOT, filesep, 'Demo']);
 addpath([GMTROOT, filesep, 'Electrodogram']);

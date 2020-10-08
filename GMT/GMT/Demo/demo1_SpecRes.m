@@ -1,14 +1,14 @@
-% This demo implements HiRes F120 (without Clearvoice) and computes the 
+% This demo implements SpecRes (without noise reduction) and computes the 
 % electrode output for some speech tokens.
 
 initGmtClassPath;
    
 %% Create strategy
-strat = FftStrategy();
-
+strat = FftStrategy();  % AzBio_3sent.wav is assigned as default sound input, use line below to load other files
+%strat.wavFile = 'YOURFILENAME.wav'; % assign your own input
 %% Create instances of ProcUnits and add them to strategy
-src = ReadWavUnit(strat, 'SRC', 'Sounds\AzBio_3sent.wav');  % use wav file as input
-mix = AudioMixerUnit(strat, 'MIX', 1, 65, 'rms', 111.6);    % 1 input, 65dB SPL RMS assuming full-scale level 111.6 dB SPL
+src = ReadWavUnit(strat, 'SRC');   % loads strat.wavFile
+mix = AudioMixerUnit(strat, 'MIX', 1, 65, 'rms', 111.6);    % 1 input, re-scale to 65dB SPL RMS assuming full-scale level 111.6 dB SPL
 
 pre = HarmonyPreemphasisUnit(strat, 'PRE');                 % pre-emphasis filter
 agc = DualLoopTdAgcUnit(strat, 'AGC');                      % automatic gain control 
