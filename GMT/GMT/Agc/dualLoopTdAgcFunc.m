@@ -182,7 +182,7 @@ GExpand = filter(ones(1,gainBufLen)/gainBufLen, 1, GExpand); % average over gain
 GExpand = GExpand(2:nSamp+2-gainBufLen);
 
 wavpad  = wavIn(max(1,gainBufLen-envBufLen+1):gainBufLen);  % max. wavpad length: endBufLen
-zeropad = zeros(1, envBufLen-length(wavpad));               % length(wavpad) + length(zeropad) = envBufLen;
+zeropad = zeros(1, envBufLen-length(wavpad));               % length(wavpad) + length(zeropad) = envBufLen
 wavOut = [zeropad, wavpad, wavIn(gainBufLen+1:nSamp-envBufLen+1)] .* GExpand; % apply gain
 
 nOutTooShort = length(wavIn) - length(wavOut);
