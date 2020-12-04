@@ -16,7 +16,7 @@ classdef FftStrategy < Strategy
         windowType = 'blackhann';  % FFT window type used [string / function handle] ['blackhann']
         startBin = 6; % first FFT bin of lowest filterbank channel [1-based index] [6]
         nBinLims = [2, 2, 1, 2, 2, 2, 3, 4, 4, 5, 6, 7, 8, 10, 56]; % nr. of FFT bins per channel [1-based indices] [default F120 allocation]
-        wavFile = 'Sounds\AzBio_3sent.wav'
+        wavFile = ['Sounds' filesep 'AzBio_3sent.wav'];
     end
     
     properties(Dependent = true)
