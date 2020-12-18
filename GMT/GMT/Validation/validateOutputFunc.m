@@ -44,7 +44,7 @@ function saved = validateOutputFunc(par,electrodogram)
         inputDataIsMatrix = false;
     end
     
-    if par.elgramFs ~= 55556; error('Electrodogram must be generated with 55556 Hz sampling rate'); end        
+    if round(par.elgramFs) ~= 55556; error('Electrodogram must be generated with 55556 Hz sampling rate'); end        
     if length(size(electrodogram)) ~= 2; error('Electrodogram must be a 2 dimensional matrix!'); end
     if size(electrodogram,1) ~= 16
         if size(electrodogram,2) ~=16
@@ -94,13 +94,13 @@ function saved = validateOutputFunc(par,electrodogram)
     % check for charge balancing
     chargeBalance = zeros(size(electrodogram,1));
     for i = 1:size(electrodogram,1)
-        if sum(electrodogram(i,:)) > eps
+        if abs(sum(electrodogram(i,:))) > eps
             chargeBalance(i) = 1;
         end
     end
-   
+    
     if sum(chargeBalance) > 0
-        error(['Channels: ' numstsr(find(chargeBalance)) ' are not charge balanced. Within-channel current must sum to 0.'])
+        warning(['Channels: ' numstsr(find(chargeBalance)) ' are not charge balanced. Within-channel current must sum to 0.'])
     end
     
 
