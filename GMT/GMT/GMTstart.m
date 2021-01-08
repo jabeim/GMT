@@ -31,6 +31,7 @@ addpath([GMTROOT, filesep, 'Mapping']);
 addpath([GMTROOT, filesep, 'Mixer']);
 addpath([GMTROOT, filesep, 'Plotting']);
 addpath([GMTROOT, filesep, 'PostFilterbank']);
+addpath([GMTROOT, filesep, 'Sounds']);
 addpath([GMTROOT, filesep, 'Strategies'])
 addpath([GMTROOT, filesep, 'Synthesis']);
 addpath([GMTROOT, filesep, 'Validation']);
