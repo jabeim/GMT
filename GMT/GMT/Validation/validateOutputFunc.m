@@ -29,7 +29,9 @@ function saved = validateOutputFunc(par,electrodogram)
 %                         channels are flagged as similar if the result is less than the threshold, [int]
 %   maxSimilarChannels - maximum number of channels where the similarity exceeds the difference Threshold, [8]
 %   elGramFs - the sampling frequency used to generate electrodogram; also stored in the parameters for f120ElectrodogramFunc
-%               MUST BE SET TO 55556 Hz
+%               MUST BE SET TO 55555.55... Hz (this is the native rate
+%               acheived by leaving electrodogramFs = [] in
+%               f120ElectrodogramFunc).
 %   outFile - additional text appended to the filename of electrodogram data saved by the validation function, '' [string]
 %
 % OUTPUT:
@@ -80,19 +82,19 @@ function saved = validateOutputFunc(par,electrodogram)
         % if there was no validation file, skip this step and continue
         outputDifference = [];  % leave empty validation matrix, this will pass through validation as a case where no channels are similar
     else
-        if size(validationData,2)-par.lengthTolerance <= size(electrodogram,2) < size(validationData,2)+par.lengthTolerance
+        if abs(size(validationData,2)-size(electrodogram,2)) <= floor(par.lengthTolerance*size(validationData,2))
             outputDifference = zeros(1,size(electrodogram,1));
             for i = 1:size(validationData,1)
                 outputDifference(1,i) = xCorrSimilarity(validationData(i,:),full(electrodogram(i,:)));
             end
         else
-            error(['Electrodogram length exceeds validation tolerance. Expected: ' num2str(size(validationData,2)) ' samples. +-' num2str(par.lengthTolerance) '%, found: ' num2str(size(electrodogram,2)) 'samples.'])
+            error(['Electrodogram length exceeds validation tolerance. Expected: ' num2str(size(validationData,2)) ' samples. (+-' num2str(100*par.lengthTolerance) '%), found: ' num2str(size(electrodogram,2)) ' samples.'])
         end
     end
     
     
     % check for charge balancing
-    chargeBalance = zeros(size(electrodogram,1));
+    chargeBalance = zeros(1,size(electrodogram,1));
     for i = 1:size(electrodogram,1)
         if abs(sum(electrodogram(i,:))) > eps
             chargeBalance(i) = 1;

@@ -164,7 +164,8 @@ par_elgram = struct(...
 
 par_validate = struct(...
     'parent',par_strat,...
-    'lengthTolerance',50,...                % maximum allowable difference between validation file and submitted data
+    'lengthTolerance',.005,...               % [REVISED] Maximum allowable difference between the length of the validation files 
+    ...                                     %           and user generated electrodogram as a proportion of validation file length [0 1]
     'saveIfSimilar',true,...                % force saving files even if result is similar to default processing [FOR TESTING]
     'differenceThreshold',1,...             % minimum current difference across time for each channel
     'maxSimilarChannels',8,...              % max number of similar channels allowed before preventing save

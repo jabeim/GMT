@@ -1,2 +1,4 @@
 
 *.asv
+GMT/GMT/batchProcess.m
+GMT/GMT/processPipeline.m
