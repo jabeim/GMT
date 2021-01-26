@@ -23,7 +23,9 @@ function saved = validateOutputFunc(par,electrodogram)
 %
 % FIELDS FOR PAR:
 %   parent.wavFile - the name of the source audio file being processed, ['Sounds\example.wav']
-%   lengthTolerance - the number of samples difference allowable between validation and electrodogram array lengths, [15]
+%   lengthTolerance - the maximum allowable difference in length between
+%                       validationData and the electrodogram as a proportion of
+%                       len(validationData) [.005]
 %   saveIfSimilar - whether or not to save the output matrix if similarity between electrodogram and default data is high, [bool]
 %   differenceThreshold - max value for sum(abs(electrodogram-validationData)) in each channel, 
 %                         channels are flagged as similar if the result is less than the threshold, [int]
